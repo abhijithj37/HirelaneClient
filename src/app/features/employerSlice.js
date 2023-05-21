@@ -5,8 +5,8 @@ const initialState = {
   postedJobs: null,
   jobDetails: null,
   application: null,
-  employerApplications: [],
-  jobApplications: [],
+  employerApplications:[],
+  jobApplications:[],
   chatUser:null
   
 };

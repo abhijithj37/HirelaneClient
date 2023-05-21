@@ -53,7 +53,7 @@ const handleLogout=()=>{
       </ListItemIcon>
       <ListItemText primary="interviews"/>
     </ListItemButton>
-    <ListItemButton onClick={""}>
+    <ListItemButton onClick={()=>navigate('candidates')}>
       <ListItemIcon >
       <GroupsIcon />
       </ListItemIcon>

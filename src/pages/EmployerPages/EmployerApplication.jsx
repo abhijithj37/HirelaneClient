@@ -17,17 +17,19 @@ function EmployerApplication() {
     const navigate=useNavigate()
   const dispatch = useDispatch();
   const { employerApplications } = useSelector((state) => state.employer);
+
   useEffect(() => {
     axios
-      .get("/applications/employerApplications", { withCredentials: true })
+      .get("/applications/emp-app-details",{ withCredentials: true })
       .then(({data})=>{
-      console.log(data.applications,"app client");
-      dispatch(setEmployerApplications(data.applications));
+       dispatch(setEmployerApplications(data.applications));
       })
-      .catch((err) => {
+      .catch((err) =>{
       console.log(err.message);
       });
-  }, []);
+  }, [dispatch]);
+
+
   return (
     <Box
       component="main"
@@ -50,7 +52,7 @@ function EmployerApplication() {
           </Box>
 
 
-        {employerApplications.length &&
+        {employerApplications.length?
           employerApplications.map((element, indx) => {
               return (
                 <Grid   lg={12} marginTop={3} item container>
@@ -84,8 +86,9 @@ function EmployerApplication() {
                   <Grid marginTop={1} lg={12}><Divider></Divider></Grid>
                 </Grid>
               );
-          })}
-
+          }):<Box marginTop={5} width={'100%'} justifyContent={'center'} textAlign={'center'} display={'flex'} alignContent={'center'}>
+            <Typography variant="body1" fontWeight={500} color={'gray'} textAlign={'center'}>No Active Applications Yet</Typography>
+            </Box>}
 
         </Grid>
       </Container>

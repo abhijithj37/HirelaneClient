@@ -84,12 +84,12 @@ function Home() {
       jobKeyWord,
       jobLocation,
     };
-    console.log('hai claiing');
+  
     server
       .post("/posts/searchJob",data,{withCredentials:true})
       .then(({ data }) => {
         console.log(data,'its hhhhh');
-        if (!data.jobs.length) return setSearchError(true);
+        if(!data.jobs.length) return setSearchError(true);
         setSearchError(false)
         dispatch(setPosts(data.jobs));
         dispatch(setPostId(data.jobs[0]._id));

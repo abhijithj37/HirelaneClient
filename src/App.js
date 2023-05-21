@@ -31,9 +31,11 @@ import EmployerApplication from "./pages/EmployerPages/EmployerApplication";
 import ApplicationDetails from "./pages/EmployerPages/ApplicationDetails";
 import CandidateDetails from "./pages/EmployerPages/CandidateDetails";
 import EmployerChat from './pages/EmployerPages/EmployerChat'
- import Messages from "./pages/SeekerPages/Chat";
+import Messages from "./pages/SeekerPages/Chat";
 import JobDetails from "./pages/SeekerPages/JobDetails";
-
+import Applicants from "./pages/EmployerPages/Applicants";
+import CandidateInfo from "./pages/EmployerPages/CandidateInfo";
+  
 function App() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -111,7 +113,10 @@ function App() {
           <Route path="employerapplications" element={<EmployerApplication/>}></Route>
           <Route path="applicationdetails/:id" element={<ApplicationDetails/>}></Route>
           <Route path="employerChat" element={<EmployerChat/>}></Route>
- 
+          <Route path="candidates" element={<Applicants/>}></Route>
+          <Route path="candidateInfo/:id" element={<CandidateInfo/>}></Route>
+
+   
         </Route>
 
       </Route>

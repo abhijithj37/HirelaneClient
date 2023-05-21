@@ -1,35 +1,57 @@
 import { Avatar, Box, Button, Grid, IconButton, Menu, MenuItem, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
  import { useNavigate } from "react-router-dom";
-import { setChatUser } from "../../app/features/employerSlice";
+import { setChatUser, setJobApplications } from "../../app/features/employerSlice";
 import { MoreVert } from "@mui/icons-material";
+import axios from "../../axios";
 
-function CandidateDetails({ jobApplication }) {
+
+ 
+function CandidateDetails({ jobApplication}) {
   const dispatch=useDispatch()
   const navigate=useNavigate()
-  const [anchorEl, setAnchorEl] = useState(null);
- 
-  const handleUpdateStatus=(status)=>{
-  window.alert(status)
+  const [anchorEl,setAnchorEl] = useState(null);
+   
+
+  const handleMenuClose=()=>{
   setAnchorEl(null);
-
-  }
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  }; 
+  
+  
   const handleOptionClick=(e)=>{
+  setAnchorEl(e.currentTarget);
+  };
 
-     setAnchorEl(e.currentTarget);
+   
+  
+   
 
-    };
+  const handleUpdateStatus=(status)=>{
+
+    const data={
+    status,
+    applicationId:jobApplication?._id,
+    jobId:jobApplication?.jobId
+     }
+  
+    
+    axios.put('/applications/update-status',data,{withCredentials:true}).then(({data})=>{
+      console.log(data,'app dataa');
+    dispatch(setJobApplications(data))
+    window.alert(`Candidate${status}`)
+    }).catch((err)=>{
+    console.log(err.message);
+    })
+    
+    }
+   
   return (
     <Grid lg={7.7} item>
       <Box
         border={1}
         borderRadius={2}
-        sx={{ borderColor: "lightgray" }}
+        sx={{ borderColor:"lightgray"}}
         padding={2}
       >
         <Box display={'flex'}>
@@ -84,21 +106,27 @@ function CandidateDetails({ jobApplication }) {
                     <MoreVert/>
                   </IconButton>
                   <Menu
-
+                  
                     id="options-menu"
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}
                     onClose={handleMenuClose}
-                  >
-                    <MenuItem onClick={()=>handleUpdateStatus('Shortlisted')}>
+                  >            
+                    <MenuItem onClick={()=>{
+                      handleUpdateStatus('Shortlisted')
+                      setAnchorEl(null);
+                      }}>
                     Shortlist Candidate
                     </MenuItem >
                     <MenuItem onClick={()=>{handleUpdateStatus('Rejected')}}>
                       {" "}
-                     Reject Candidate
+                     Reject Application
                     </MenuItem>
                     <MenuItem  onClick={()=>{handleUpdateStatus('Interview Sheduled')}} >
                      Shedule Interview
+                    </MenuItem>
+                    <MenuItem  onClick={()=>{handleUpdateStatus('Reviewing')}} >
+                     Save Application 
                     </MenuItem>
                   </Menu>
          </Box>

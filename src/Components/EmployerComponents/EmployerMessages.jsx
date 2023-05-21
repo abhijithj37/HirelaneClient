@@ -1,12 +1,10 @@
 import { Box, } from "@mui/material";
  import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-import {format} from 'timeago.js'
-import EmployerSingleMessage from "./EmployerSingleMessage";
+ import EmployerSingleMessage from "./EmployerSingleMessage";
 function EmployerMessages({messages}) {
      const scrollRef = useRef();
-     const {employer} = useSelector((state)=>state.employer)
-     
+      
      
 
    useEffect(()=>{

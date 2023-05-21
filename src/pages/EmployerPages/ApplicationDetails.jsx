@@ -21,17 +21,24 @@ function ApplicationDetails() {
   const dispatch = useDispatch();
   const { jobApplications } = useSelector((state) => state.employer);
   const [index,setIndex]=useState(0)
+ 
+    
   useEffect(() => {
+    let status='Applied'
     axios
-      .get(`applications/jobApplications/${id}`,{withCredentials:true})
+      .get(`applications/jobApplications/${id}/${status}`,{withCredentials:true})
       .then(({ data }) => {
         dispatch(setJobApplications(data.applications));
       })
-      .catch((err) => {
+      .catch((err) =>{
         console.log(err.message);
       });
-  }, []);
+  }, [id,dispatch]);
+
+  
   return (
+    
+    
     <Box
       component="main"
       sx={{
@@ -42,9 +49,10 @@ function ApplicationDetails() {
       }}
     >
       <Toolbar />
-
+    {jobApplications.length?
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         {/* ********************************************************************************************* */}
+        
         <Grid container lg={12}>
           <Grid item lg={0.5}></Grid>
           <Grid lg={1} item>
@@ -110,7 +118,6 @@ function ApplicationDetails() {
                         <Typography fontWeight={500}>{element.fName} {element.lName}</Typography>
                         <Typography variant="body2" >{element.email}</Typography>
                         </Box>
-
                       </Box>
                       <Box>
                         <Typography variant="caption" color={"gray"}>
@@ -125,10 +132,19 @@ function ApplicationDetails() {
 
           <Grid item lg={0.3}></Grid>
    
-          <CandidateDetails jobApplication={jobApplications[index]} />
+          <CandidateDetails  jobApplication={jobApplications[index]} />
         </Grid>
-      </Container>
+        
+      </Container>:
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+
+      <Box marginTop={4} paddingTop={4} display={'flex'} justifyContent={'center'} alignItems={'center '} alignContent={'center'}>
+      <Typography fontWeight={500} color={"gray"}>No New Applications</Typography>
+      </Box> 
+      </Container>}
     </Box>
+
+  
   );
 }
 
