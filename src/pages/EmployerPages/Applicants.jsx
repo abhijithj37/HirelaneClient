@@ -86,18 +86,19 @@ function Applicants(){
   const handleOpen = () => {
     setOpen(true);
   };
-  const handleUpdateStatus=(id,status)=>{
+  const handleUpdateStatus=(status)=>{
     const data={
     status,
-    applicationId:id,
+    applicationId:selectedCandidate?._id,
     employerId:employer?._id,
     }
   
     
     axios.put('/applications/update-status',data,{withCredentials:true}).then(({data})=>{
-      setShortListed(data.filter((app)=>app.status==="Shortlisted"));
       window.alert(`Candidate Status updated`)
-    }).catch((err)=>{
+      setShortListed(data.filter((app)=>app.status==="Shortlisted"));
+      handleMenuClose()
+     }).catch((err)=>{
     console.log(err.message);
     })
     }
@@ -125,12 +126,15 @@ function Applicants(){
     date,
     startTime,
     endTime,
-    location
+    location,
+    jobTitle:selectedCandidate?.jobTitle,
+    interviewMode,
+    applicationId:selectedCandidate?._id
   }
 
       
     axios.post('/applications/interview',data,{withCredentials:true}).then(({data})=>{
-    handleUpdateStatus(selectedCandidate?._id,'Interview-Sheduled')
+    handleUpdateStatus('Interview-Sheduled')
     handleClose()
     handleMenuClose()
 
@@ -356,14 +360,14 @@ function Applicants(){
                                   </MenuItem>
                                   <MenuItem
                                     onClick={() => {
-                                      handleUpdateStatus("Interview Sheduled");
+                                      handleUpdateStatus("Applied");
                                     }}
                                   >
                                     Remove from shortlist
                                   </MenuItem>
                                   <MenuItem
                                     onClick={() => {
-                                      handleUpdateStatus("Interview Sheduled");
+                                      handleUpdateStatus("Rejected");
                                     }}
                                   >
                                     Reject candidate

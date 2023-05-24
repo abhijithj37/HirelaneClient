@@ -8,7 +8,7 @@ import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 
 function SeekerConversation({ conversation, onlineUsers, searchQuery }) {
-  const { seeker } = useSelector((state) => state.seeker);
+  const { seeker,chatUser } = useSelector((state) => state.seeker);
   const [employer, setEmployer] = useState("");
   const [unreadMessages, setUnreadMessages] = useState([]);
 
@@ -62,7 +62,10 @@ function SeekerConversation({ conversation, onlineUsers, searchQuery }) {
             ":hover": {
               backgroundColor: "#e0e0e0",
             },
+          
           }}
+          bgcolor={employer?._id==chatUser?._id&&'#eceff1'}
+          
           onClick={() => {
             dispatch(
               setChatEmployer({

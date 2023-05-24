@@ -24,7 +24,7 @@ import {useNavigate } from "react-router-dom";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-const pages = ["Find Jobs", "Company Review"];
+// const pages = ["Find Jobs", "Company Review"];
 
 function Header() {
   const { seeker } = useSelector((state) => state.seeker);

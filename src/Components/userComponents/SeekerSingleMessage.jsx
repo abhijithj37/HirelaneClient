@@ -8,7 +8,8 @@ function SeekerSingleMessage({message,scrollRef}) {
     const {seeker}=useSelector((state)=>state.seeker)
     
     useEffect(()=>{
-    if(message&&message.from!=seeker?._id){
+    if(message&&message.from!=seeker?._id&&!message.read){
+      console.log(message,'this is going to update');
     const data={
     messageId:message._id
      }

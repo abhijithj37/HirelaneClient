@@ -56,7 +56,9 @@ function EmployerConversation({ conversation, onlineUsers,searchQuery }) {
           ":hover": {
             backgroundColor: "#e0e0e0",
           },
+          
         }}
+        bgcolor={user?._id==chatUser?._id&&'#eceff1'}
         onClick={() => {
           dispatch(
             setChatUser({

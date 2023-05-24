@@ -27,15 +27,15 @@ function PostedJobs() {
   const navigate=useNavigate()
   const dispatch = useDispatch();
   const [snackbar, setSnackbar] = useState({
-    isOpen: false,
-    message: "",
-    severity: "",
+    isOpen:false,
+    message:"",
+    severity:"",
   });
   const [anchorEl, setAnchorEl] = useState(null);
   const[selectedJob,setSelectedJob]=useState(null)
 
   const {postedJobs}=useSelector((state)=>state.employer);
-
+  
   const handleOptionClick=(e,job)=>{
   setSelectedJob(job)
   setAnchorEl(e.currentTarget);
@@ -79,6 +79,7 @@ function PostedJobs() {
   };
 
   return (
+
     <Box
       component="main"
       sx={{
@@ -106,11 +107,11 @@ function PostedJobs() {
       <Typography gutterBottom  variant="h5" fontWeight={500}>
        Posted jobs 
       </Typography>
-       
+               
       <Divider sx={{marginBottom:2,color:"black"}}></Divider>
         {postedJobs?(
         <Grid container sx={{backgroundColor:"white"}} spacing={1}>
-          { postedJobs.length===0&&<><Box
+          {postedJobs.length===0&&<><Box
             width={"100%"}
             height={"60vh"}
             justifyContent={"center"}
@@ -126,7 +127,7 @@ function PostedJobs() {
                   height:150,
                   border:1,
                   borderColor:"lightgray",
-                  "&:hover": {
+                  "&:hover":{
                   borderColor:"lightblue",
                   },
                   borderRadius:1,
@@ -137,7 +138,7 @@ function PostedJobs() {
                 </Grid>
                 <Grid item lg={10}>
                   <Typography gutterBottom  to={`jobDetails/${job._id}`} component={Link} variant="h6">
-                    {job.jobTitle}
+                  {job.jobTitle}
                   </Typography>
                   <Typography color={"secondary"}>{job.companyName}</Typography>
                   <Typography gutterBottom>{job.jobLocation}</Typography>

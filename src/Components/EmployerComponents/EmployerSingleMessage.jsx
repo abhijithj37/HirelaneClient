@@ -10,7 +10,7 @@ function EmployerSingleMessage({message,scrollRef}) {
 
     useEffect(()=>{
 
-    if(message&&message.from!=employer._id){
+    if(message&&message.from!=employer._id&&!message.read){
      const data={
 
      messageId:message._id

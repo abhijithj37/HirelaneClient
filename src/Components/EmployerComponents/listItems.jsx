@@ -47,8 +47,8 @@ const handleLogout=()=>{
       </ListItemIcon>
       <ListItemText primary="Applications" />
     </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
+    <ListItemButton onClick={()=>navigate('interviews')}>
+      <ListItemIcon  >
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="interviews"/>

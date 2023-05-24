@@ -2,14 +2,18 @@ import { Box, Paper, Typography } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 import JobPostSkeleton from "../../Skeletons/JobPostSkeleton";
+import { useSelector } from "react-redux";
 
 function JobPost({post}) {
+const {postId}=useSelector((state)=>state.posts)
   return (
     <> 
     {post?<Paper
       
-      sx={{ minHeight:200,maxHeight:300,padding: 2,borderRadius:2,marginBottom:2}}
+      sx={{ minHeight:200,maxHeight:300,padding: 2,borderRadius:2,marginBottom:2,borderColor:post?._id==postId&&'blue'}}
       variant="outlined"
+      
+      
     >
 
       <Typography component={Link} sx={{textDecoration:'none'}} variant="h6">{post.jobTitle}</Typography>

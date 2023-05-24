@@ -1,6 +1,6 @@
+import { useRef } from 'react';
 import axios from '../axios'
-
- 
+  
 export const verifyEmployer = () => {
 
   return axios
@@ -18,17 +18,21 @@ export const verifyEmployer = () => {
 };
 
 export const verifySeeker=()=>{
-     return axios
+    return axios
     .get("/seeker/verifyUser", { withCredentials: true })
     .then(({ data }) => {
-       return data.user[0];
+     return data.user[0];
     })
     .catch((error) => {
-      if (error.response && error.response.status === 401) {
-        throw new Error("Unauthorized");
-      }
-      throw new Error("Something went wrong");
+    if (error.response && error.response.status === 401) {
+    throw new Error("Unauthorized");
+    }
+    throw new Error("Something went wrong")
     });
 };
+
  
+
+
+
   

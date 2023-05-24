@@ -122,9 +122,7 @@ function CandidateDetails({ jobApplication}) {
                       {" "}
                      Reject Application
                     </MenuItem>
-                    <MenuItem  onClick={()=>{handleUpdateStatus('Interview Sheduled')}} >
-                     Shedule Interview
-                    </MenuItem>
+                     
                     <MenuItem  onClick={()=>{handleUpdateStatus('Reviewing')}} >
                      Save Application 
                     </MenuItem>

@@ -18,6 +18,9 @@ import SeekerConversation from "../../Components/userComponents/SeekerConversati
 import SeekerMessages from "../../Components/userComponents/SeekerMessages";
 import Header from "../../Components/userComponents/Header";
 import { StyledBadge } from "../../Components/userComponents/SeekerConversation";
+import Linkify from 'linkify-react';
+import { useSocket } from "../../Context/SocketProvider";
+
 
 function Chat() {
   const [conversations, setConversations] = useState([]);
@@ -27,31 +30,46 @@ function Chat() {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [searchQuery,setSearchQuery]=useState('')
-  const socket = useRef();
+  // const socket = useRef();
+  const socket=useSocket()
 
   useEffect(() => {
-    socket.current = io("http://localhost:4006");
-    socket.current.emit("addUser", seeker?._id);
-    socket.current.on("onlineUsers", (onlineUsers) => {
+    
+    socket.emit("addUser", seeker?._id);
+    socket.on("onlineUsers", (onlineUsers) => {
       console.log(onlineUsers, "its the online users");
       setOnlineUsers(onlineUsers);
     });
-    return () => {
-      socket.current?.disconnect();
-    };
+
+    return ()=>{
+     socket.emit('removeFromOnline',seeker?._id)
+
+    }
+       
   }, [seeker?._id]);
+
+  function formatMessageContent(data) {
+    const { message } = data;
+  
+    return (
+      <Linkify options={{target:'_blank'}}>
+        {message}
+      </Linkify>
+    );
+  }
 
   const handleSendMessage = () => {
     if(newMessage.trim()==="") return null
       
-  
+     
     const message = {
       from: seeker?._id,
       to: chatUser?._id,
       message: newMessage,
     };
 
-    socket.current.emit("send-msg", {
+ 
+    socket.emit("send-msg", {
       to: chatUser?._id,
       from: seeker?._id,
       message: newMessage,
@@ -62,6 +80,7 @@ function Chat() {
     axios
       .post("/chat/msg", message, { withCredentials: true })
       .then(({ data }) => {
+        data.message=formatMessageContent(data)
         setMessages([...messages, data]);
         setNewMessage("");
       })
@@ -78,6 +97,7 @@ function Chat() {
           withCredentials: true,
         })
         .then(({ data }) => {
+          data.map((d)=>d.message=formatMessageContent(d))
           setMessages(data);
         })
         .catch((err) => {
@@ -99,9 +119,9 @@ function Chat() {
   }, [messages]);
 
   useEffect(() => {
-    if (socket.current) {
-      socket.current.on("msg-receive", (data) => {
-        setArrivalMessage(data);
+    if (socket){
+      socket.on("msg-receive", (data) => {
+      setArrivalMessage(data);
       });
     }
   }, [arrivalMessage]);
@@ -249,7 +269,7 @@ function Chat() {
     Start messaging with Hirelane
   </Typography>
 </Box>
-</Box>}
+</Box>}  
           </Grid>
         </Grid>
       </Container>

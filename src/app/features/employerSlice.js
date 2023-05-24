@@ -7,7 +7,8 @@ const initialState = {
   application: null,
   employerApplications:[],
   jobApplications:[],
-  chatUser:null
+  chatUser:null,
+  newMessage:""
   
 };
 
@@ -35,6 +36,9 @@ const employerSlice=createSlice({
     },
     setChatUser:(state,action)=>{
     state.chatUser=action.payload
+    },
+    setNewMessage:(state,action)=>{
+      state.newMessage=action.payload
     }
   },
 });
@@ -45,5 +49,6 @@ export const {
   setEmpJobDetails,
   setEmployerApplications,
   setJobApplications,
-  setChatUser
+  setChatUser,
+  setNewMessage
 } =employerSlice.actions;

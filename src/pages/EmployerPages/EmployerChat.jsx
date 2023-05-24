@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import Linkify from 'linkify-react';
+
 
 import {
   Typography,
@@ -15,38 +17,40 @@ import { Send as SendIcon } from "@mui/icons-material";
 import EmployerConversation from "../../Components/EmployerComponents/EmployerConversation";
 import EmployerMessages from "../../Components/EmployerComponents/EmployerMessages";
 import axios from "../../axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { StyledBadge } from "../../Components/userComponents/SeekerConversation";
 import Logo from '../../images/logo.png'
+import { setNewMessage } from "../../app/features/employerSlice";
+import { useSocket } from "../../Context/SocketProvider";
 
 function EmployerChat() {
+ const dispatch=useDispatch()
+ const {newMessage}=useSelector((state)=>state.employer)
  const [conversations,setConversations]=useState([])
  const {employer,chatUser}=useSelector((state)=>state.employer)
  const [messages, setMessages] = useState([]);
- const [newMessage, setNewMessage] = useState("");
+ //  const [newMessage, setNewMessage] = useState("");
  const [arrivalMessage,setArrivalMessage]=useState(null)
  const [onlineUsers,setOnlineUsers]=useState([])
  const [searchQuery,setSearchQuery]=useState('')
- const socket=useRef()
+ const socket=useSocket()
  
 
 
-
  useEffect(()=>{
-        socket.current=io("http://localhost:4006")
-        socket.current?.emit("addUser",employer?._id)
-        socket.current.on("onlineUsers",(onlineUsers)=>{
+         socket?.emit("addUser",employer?._id)
+        socket.on("onlineUsers",(onlineUsers)=>{
         console.log(onlineUsers,'its the online users');
         setOnlineUsers(onlineUsers)
         })
-        return ()=>{
-            socket.current?.disconnect()
-        }
- },[employer._id])
+          return ()=>{
+            socket.emit('removeFromOnline',employer?._id)
+          }
+        },[employer?._id])
+ 
 
-
-  
+   
   const handleSendMessage=()=>{
 
   if(newMessage.trim()==="") return null
@@ -55,37 +59,49 @@ function EmployerChat() {
     from:employer?._id,
     to:chatUser?._id,
     message:newMessage,
+
     };
 
-    socket.current.emit("send-msg",{
+    socket.emit("send-msg",{
         to:chatUser._id,
-        from:employer._id,
+        from:employer._id, 
         message:newMessage,
         createdAt:new Date(),
-        
+        read:false
     })
 
+
     axios
-      .post("/chat/emp-msg",message,{withCredentials:true})
-      .then(({ data })=>{
+       .post("/chat/emp-msg",message,{withCredentials:true})
+       .then(({ data })=>{
+       data.message=formatMessageContent(data)
        setMessages([...messages,data]);
-       setNewMessage("");
+       dispatch(setNewMessage(""))  
        })
-      .catch((err) => {
+       .catch((err) => {
        console.log(err.message);
       })
-
    };
-
-    
-
    
+
+   function formatMessageContent(data){
+    const { message }=data;
+    
+    return (
+      <Linkify options={{target:'_blank'}}
+      >
+        {message}
+      </Linkify>
+    );
+  }
+
 
   useEffect(() => {
    if(chatUser){
     axios
     .get(`/chat/emp-msg?user1=${chatUser._id}&user2=${employer?._id}`,{withCredentials:true})
     .then(({ data }) => {
+      data.map((d)=>d.message=formatMessageContent(d))
     setMessages(data);
     })
     .catch((err) => {
@@ -95,27 +111,35 @@ function EmployerChat() {
   },[chatUser,arrivalMessage]);
   
 
+
   useEffect(()=>{
   axios.get(`/chat/emp-conversations/${employer?._id}`,{withCredentials:true}).then(({data})=>{
-  console.log(data);
+   console.log(data);
   setConversations(data)
   }).catch((err)=>{
-  console.log(err);
+   console.log(err);
   })
   },[messages])
 
+
+
   useEffect(()=>{
-  if(socket.current){
-    socket.current.on("msg-receive",(data)=>{
-        setArrivalMessage(data)
+  if(socket){
+    socket.on("msg-receive",(data)=>{
+    setArrivalMessage(data)
     })
   }
   },[arrivalMessage])
   
+
+
   useEffect(()=>{
-    arrivalMessage&&setMessages((prev)=>[...prev,arrivalMessage])
-  },[arrivalMessage])
+   arrivalMessage&&
+   setMessages((prev)=>[...prev,arrivalMessage])
+   },[arrivalMessage])
   
+
+
 
   return (
 
@@ -253,7 +277,7 @@ function EmployerChat() {
           <Box padding={1} style={{ display: "flex", alignItems: "center" }}>
             <TextField
             value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
+            onChange={(e) =>dispatch( setNewMessage(e.target.value))}
             label="Type a message"
             fullWidth            
             margin="normal"      

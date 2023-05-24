@@ -106,11 +106,19 @@ function ApplicationDetails() {
                     onClick={()=>{setIndex(idx)}}
                     key={idx}
                       marginTop={2}
-                      sx={{ borderColor: "lightgray" }}
+                      sx={{ borderColor: "lightgray",
+                       cursor: "pointer",
+              
+                      ":hover": {
+                        backgroundColor: "#e0e0e0",
+                      }, }}
                       borderBottom={1}
                       padding={1}
                       justifyContent={"space-between"}
                       display={"flex"}
+                      bgcolor={element._id==jobApplications[index]._id&&'#eceff1'}
+                      
+
                     >
                       <Box display={'flex'}>
                         <Box><Avatar src={`http://localhost:4001/image/${element.image}`}/></Box>
