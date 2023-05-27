@@ -110,8 +110,7 @@ function EmployerChat() {
     }
   },[chatUser,arrivalMessage]);
   
-
-
+   
   useEffect(()=>{
   axios.get(`/chat/emp-conversations/${employer?._id}`,{withCredentials:true}).then(({data})=>{
    console.log(data);
@@ -196,7 +195,7 @@ function EmployerChat() {
                 )
               })}
                 
-
+  
             </Box>
           </Grid>
           <Grid

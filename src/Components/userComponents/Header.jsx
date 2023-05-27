@@ -24,6 +24,7 @@ import {useNavigate } from "react-router-dom";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import VideoCallIcon from '@mui/icons-material/VideoCall';
 // const pages = ["Find Jobs", "Company Review"];
 
 function Header() {
@@ -211,6 +212,10 @@ function Header() {
                 <MenuItem onClick={()=>navigate('/myjobs')}>
                   <FavoriteIcon/>
                   <Typography textAlign="center">{"My Jobs"}</Typography>
+                </MenuItem>
+                <MenuItem onClick={()=>navigate('/join')}>
+                  <VideoCallIcon/>
+                  <Typography textAlign="center">{"Join Meet"}</Typography>
                 </MenuItem>
                  
                 <MenuItem onClick={handleLogout}>

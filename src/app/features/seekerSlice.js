@@ -8,7 +8,8 @@ const initialState=
     error:null,
     jobToApply:null,
     applications:[],
-    chatUser:null
+    chatUser:null,
+    myStream:null
     
 }
 const seekerSlice=createSlice({
@@ -27,9 +28,12 @@ const seekerSlice=createSlice({
         },
         setChatEmployer:(state,action)=>{
         state.chatUser=action.payload
+        },
+        setMystream:(state,action)=>{
+            state.myStream=action.payload
         }
     }
 })
 export default seekerSlice.reducer
-export const{setSeeker,setJobToApply,setApplications,setChatEmployer}=seekerSlice.actions
+export const{setSeeker,setJobToApply,setApplications,setChatEmployer,setMystream}=seekerSlice.actions
 

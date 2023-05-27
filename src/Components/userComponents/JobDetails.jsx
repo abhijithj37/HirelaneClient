@@ -21,7 +21,7 @@ const JobDetails = () => {
   const dispatch = useDispatch();
   const { postId, jobDetails } = useSelector((state) => state.posts);
   const { seeker } = useSelector((state) => state.seeker);
-
+  
   useEffect(() => {
     axios
       .get(`posts/getJob/${postId}`,{withCredentials:true})
@@ -36,12 +36,12 @@ const JobDetails = () => {
         
 
   const style = {
-    position: "absolute",
+    position:"absolute",
     top:"50%",
     left:"50%",
     transform:"translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
+    width:400,
+    bgcolor:"background.paper",
     borderRadius: 2,
     boxShadow: 24,
     p: 4,

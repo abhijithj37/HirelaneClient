@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import * as React from "react";
+import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -10,10 +10,49 @@ import VideoCallIcon from "@mui/icons-material/VideoCall";
 import TopBar from "../meetings/TopBar";
 import { v4 as uuid } from "uuid";
 import { useNavigate } from "react-router-dom";
-function EmpInterviewPage() {
-  const meetId=uuid()
-  const navigate=useNavigate()
+import { useSocket } from "../../Context/SocketProvider";
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setEmpStream } from "../../app/features/employerSlice";
  
+function EmpInterviewPage() {
+  const socket=useSocket()
+  const meet=uuid()
+  const dispatch=useDispatch()
+  const {employer,myStream}=useSelector((state)=>state.employer)
+  const navigate=useNavigate()
+  
+
+
+  const createMyStream = useCallback(
+    async () => {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+        video: true,
+      });
+      dispatch(setEmpStream(stream))
+    },
+    [socket]
+  );
+  const handleStartMeet=useCallback(()=>{
+  const user={name:employer?._id,userId:employer?._id }
+  socket.emit('join:meet',{user,meet})
+  createMyStream()
+  },[meet,socket,employer?._id])
+
+  const handleJoinMeet=useCallback((data)=>{
+  const {user,meet}=data
+  navigate(`/emp-meet/${meet}`)
+  },[navigate])
+
+
+
+  useEffect(()=>{
+  socket.on('join:meet',handleJoinMeet)
+  return ()=>{
+    socket.off('join:meet',handleJoinMeet)
+  }
+  },[socket,handleJoinMeet])
   return (
     <div>
       <TopBar></TopBar>
@@ -36,9 +75,9 @@ function EmpInterviewPage() {
               <Box marginTop={3}>
                 <Button
                   startIcon={<VideoCallIcon />}
-                  size="large"
+                  size="large"      
                   variant="contained"
-                  onClick={()=>navigate(`/emp-meet/${meetId}`)}
+                  onClick={handleStartMeet}
                 >
                   Start Meeting
                 </Button>

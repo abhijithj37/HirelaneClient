@@ -25,7 +25,7 @@ import EditJob from "./pages/EmployerPages/EditJob";
 import Resume from "./pages/SeekerPages/Resume";
 import BuildResume from "./pages/SeekerPages/BuildResume";
 import Apply from "./pages/SeekerPages/Apply";
-import MyJobs from "./pages/SeekerPages/MyJobs";
+import MyJobs from "./pages/SeekerPages/MyJobs";   
 import EmployerApplication from "./pages/EmployerPages/EmployerApplication";
 import ApplicationDetails from "./pages/EmployerPages/ApplicationDetails";
 import CandidateDetails from "./pages/EmployerPages/CandidateDetails";
@@ -40,13 +40,15 @@ import EmpInterviewPage from "./pages/EmployerPages/Start-meet";
 import Join from "./pages/SeekerPages/JoinMeet";
 import EmpMeet from "./pages/EmployerPages/Emp-Meet";
 import { SocketProvider, useSocket } from "./Context/SocketProvider";
+import Meet from "./pages/SeekerPages/Meet";
+
 
 function App() {
   const socket=useSocket()
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const { seeker } = useSelector((state) => state.seeker);
-  const { employer } = useSelector((state) => state.employer);
+  const dispatch=useDispatch();
+  const [loading,setLoading]=useState(false);
+  const { seeker } =useSelector((state)=>state.seeker);
+  const { employer } =useSelector((state)=>state.employer);
 
   useEffect(() => {
     setLoading(true);
@@ -91,6 +93,8 @@ function App() {
           element={seeker ? <BuildResume /> : <Navigate to={"/login"} />}
         ></Route>
         <Route path="/myjobs" element={<MyJobs />}></Route>
+        <Route path="/meet/:id" element={seeker?<Meet />:<Navigate to={'/join'}/>}></Route>
+
         <Route
           path="/resume"
           element={
@@ -144,8 +148,7 @@ function App() {
             path="interviewDetails/:id"
             element={<InterviewDetails />}
           ></Route>
-
-        </Route>
+          </Route>
         <Route
           path="/start-meet"
           element={
@@ -154,7 +157,7 @@ function App() {
         ></Route>
         <Route
           path="/emp-meet/:id"
-          element={employer ? <EmpMeet /> : <Navigate to={"/employerLogin"} />}
+          element={employer ? <EmpMeet />:<Navigate to={"/employerLogin"} />}
         ></Route>
 
       </Route> 

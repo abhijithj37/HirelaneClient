@@ -8,7 +8,8 @@ const initialState = {
   employerApplications:[],
   jobApplications:[],
   chatUser:null,
-  newMessage:""
+  newMessage:"",
+  myStream:null
   
 };
 
@@ -39,6 +40,9 @@ const employerSlice=createSlice({
     },
     setNewMessage:(state,action)=>{
       state.newMessage=action.payload
+    },
+    setEmpStream:(state,action)=>{
+     state.myStream=action.payload
     }
   },
 });
@@ -50,5 +54,6 @@ export const {
   setEmployerApplications,
   setJobApplications,
   setChatUser,
-  setNewMessage
+  setNewMessage,
+  setEmpStream
 } =employerSlice.actions;
