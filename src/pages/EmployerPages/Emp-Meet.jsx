@@ -12,7 +12,8 @@ import {
   TextField,
   Backdrop,
   CircularProgress,
-  Avatar
+  Avatar,
+  Badge
 } from "@mui/material";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
@@ -39,6 +40,7 @@ function EmpMeet() {
   const [messages, setMessages] = useState([]);
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [videoEnabled, setVideoEnabled] = useState(true);
+  const [readMesg,setReadMsg]=useState(true)
   
 
   const scrollRef = useRef();
@@ -106,12 +108,18 @@ function EmpMeet() {
   }, []);
 
   const handleMessages = (message) => {
+    if(openChat===false){
+      setReadMsg(false)
+    }else{
+      setReadMsg(true)
+
+    }
     setMessages((prevMessages) => [...prevMessages, message]);
   };
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    const message = {
+    const message ={
       senderId: employer?._id,
       senderName: employer?.name,
       createdAt: new Date(),
@@ -334,7 +342,11 @@ function EmpMeet() {
             justifyContent={"space-between"}
           >
             <Typography variant="body1">In-call messages</Typography>
-            <IconButton onClick={() => setOpenChat(false)} size="small">
+            <IconButton onClick={() => {
+              
+              setOpenChat(false)
+              setReadMsg(true)
+              }} size="small">
               <CloseIcon fontSize="small" />
             </IconButton>
           </Box>
@@ -497,12 +509,22 @@ function EmpMeet() {
           justifyContent={"space-around"}
           width={"35%"}
         >
-          <IconButton
+        {readMesg? <IconButton
             onClick={() => setOpenChat(!openChat)}
-            sx={{ color: "white", bgcolor: "", width: 40, height: 40 }}
+            sx={{ color: "white", bgcolor: "", width: 40, height:40}}
           >
             <ChatIcon />
-          </IconButton>
+          </IconButton>:<IconButton
+            onClick={() => {
+              setOpenChat(!openChat)
+              setReadMsg(true) 
+               }}
+            sx={{ color: "white", bgcolor: "", width: 40, height:40}}
+          >
+            <Badge variant="dot" color='warning'> 
+            <ChatIcon />
+            </Badge>
+          </IconButton>}
         </Box>
 
         {/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */}

@@ -220,7 +220,7 @@ function Apply() {
                           _____________________________or_______________________________
                         </Typography>
                       </Box>
-                      {!seeker.modified ? (
+                      {!seeker?.modified ? (
                         <Box
                           marginTop={2}
                           padding={2}
@@ -233,6 +233,7 @@ function Apply() {
                             startIcon={<FileOpenIcon color="disabled" />}
                             fullWidth
                             style={{ textTransform: "none" }}
+                            onClick={()=>navigate('/profile')}
                           >
                             <Typography fontWeight={"700"} fontSize={"1rem"}>
                               {" "}

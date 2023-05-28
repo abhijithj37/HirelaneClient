@@ -6,12 +6,14 @@ import {
   Button,
   Typography,
   Link,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import axios from "../../axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSeeker } from "../../app/features/seekerSlice";
-function Register() {
+ function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMessage,setErrorMessage] = useState("");
@@ -20,13 +22,49 @@ function Register() {
     lName: "",
     email: "",
     password: "",
+    verificationCode:''
   });
   const [formError, setFormError] = useState({});
+  const [verifying,setVerifying]=useState(false)
+  const [timer,setTimer]=useState(600)
+  const [resendEnabled,setResendEnabled]=useState(false)
+  const [alert,setAlert]=useState(false)
+  
+  
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const startTimer = () => {
+    setResendEnabled(false)
+    setTimer(600)
+    const interval = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer === 0) {
+          clearInterval(interval);
+          setResendEnabled(true)
+          return 
+        }
+        return prevTimer - 1
+      });
+    }, 1000);
+  };
 
-    // Define validation rules
+  const handleEmailVerification=()=> {
+    const data={
+      email:formData.email
+      }
+      axios.post('seeker/verify-email',data,{withCredentials:true}).then(()=>{
+      setAlert(true)
+      setVerifying(true)
+      startTimer()
+      }).catch((err)=>{
+        setErrorMessage(err.response.data);
+      })
+
+
+  }
+
+  
+
+  const handleValidation=()=>{
     const fNameRegex = /^[a-zA-Z]+$/;
     const lNameRegex = /^[a-zA-Z]+$/;
     const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -46,14 +84,27 @@ function Register() {
     if (!formData.password.match(passwordRegex)) {
        errors.password = "Password should contain at least 8 characters";
     }
+    if(verifying){
+      if(formData.verificationCode.trim().length<6){
+        errors.verificationCode="Please enter a valid code"
+      }
+    }
 
     // Set error messages for invalid fields
 
     setFormError(errors);
     if (Object.keys(errors).length !== 0) {
-      return;
+        return false
     }
+    return true
+  }
 
+
+
+
+  const handleRegister=()=>{
+
+    if(handleValidation()){
     axios
       .post(`/seeker/signup`,formData,{ withCredentials: true })
       .then(({ data }) =>{
@@ -68,7 +119,24 @@ function Register() {
           setErrorMessage(error.response.data);
         }
       });
+    }
+  }
+
+
+
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    
+    
+     if(handleValidation()){
+      handleEmailVerification()
+     } 
+ 
   };
+
+
+
   function handleCallbackResponse(response){
     const token = response.credential;
     axios
@@ -81,6 +149,8 @@ function Register() {
         console.log(error.message);
       });
   }
+
+
   useEffect(() => {
     const google = window.google;
     google?.accounts?.id.initialize({
@@ -96,6 +166,11 @@ function Register() {
 
   return (
     <div className="signUp">
+       <Snackbar  anchorOrigin={{vertical:'top',horizontal:'center'}}  onClose={()=>setAlert(false)} open={alert} autoHideDuration={7000} >
+      <Alert onClose={()=>setAlert(false)} severity="success" sx={{ width: '100%' }}>
+    Enter the verification code sent to your Email
+  </Alert>
+</Snackbar>
       <Container maxWidth="xs">
         <img src="" alt="" />
         <Box
@@ -115,7 +190,7 @@ function Register() {
           </Typography>
 
           <Typography variant="h5" gutterBottom color={"primary"}>
-            Sign Up
+           Sign up
           </Typography>
           <form onSubmit={handleSubmit}>
             <TextField
@@ -147,7 +222,7 @@ function Register() {
               helperText={formError.lName || " "}
             />
 
-            <TextField
+           <TextField
               size="medium"
               label="Email"
               type="email"
@@ -162,7 +237,7 @@ function Register() {
               required
             />
 
-            <TextField
+           <TextField
               size="medium"
               label="Password"
               type="password"
@@ -176,20 +251,59 @@ function Register() {
               error={!!formError.password}
               helperText={formError.password||" "}
             />
-            <Button onClick={()=>navigate('/login')} sx={{textTransform:'none'}}>
+              
+           {verifying&& 
+           <> 
+            <TextField
+              size="medium"
+              label="Enter your 6 digit verification code"
+              type="number"
+              value={formData.verificationCode}
+              onChange={(e) =>
+                setFormdata({ ...formData, verificationCode: e.target.value })
+              }
+              margin="small"
+              fullWidth
+              error={!!formError.verificationCode}
+              helperText={formError.verificationCode || " "}
+              required
+            />
+            <Box display={'flex'} justifyContent={'space-between'}>
+             {resendEnabled?<Button size="small" onClick={handleEmailVerification}>Resend code</Button>:
+            <Typography color={'error'} variant="caption">Expires in {Math.floor(timer / 60)}:{timer % 60 < 10 ? `0${timer % 60}` : timer % 60} 
+      </Typography>}
+            </Box>
+              
+            </>}
+ 
+           {!verifying&& <Button onClick={()=>navigate('/login')} sx={{textTransform:'none'}}>
                <Typography>already have an account?</Typography>  
-            </Button>
-            <Button
-              sx={{ marginTop: 2 }}
+            </Button>}
+          {!verifying&&<Button
+              sx={{marginTop:2}}
               variant="contained"
               color="primary"
               type="submit"
               fullWidth
             >
-              Sign Up
-            </Button>
+              Continue
+            </Button>}
+            </form>
+           
+          {verifying&&
+            <Button
+              sx={{marginTop:2}}
+              variant="contained"
+              color="primary"
+              type="submit"
+              fullWidth
+              onClick={handleRegister}
+              disabled={formData.verificationCode.trim().length!==6}
+            >
+              Sign up
+            </Button>}
             <Button id="signInButton" sx={{ marginTop: 1 }} fullWidth></Button>
-          </form>
+
         </Box>
       </Container>
     </div>

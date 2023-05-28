@@ -10,7 +10,8 @@ import {
   Box,
   IconButton,
   Avatar,
-  TextField
+  TextField,
+  Badge
 } from "@mui/material";
 import { io } from "socket.io-client";
 import MicIcon from "@mui/icons-material/Mic";
@@ -41,6 +42,8 @@ function Meet() {
   const [videoEnabled,setVideoEnabled]=useState(true)
   const [audioEnabled,setAudioEnabled]=useState(true)
   const [messages,setMessages]=useState([])
+  const [readMesg,setReadMsg]=useState(true)
+
   const scrollRef=useRef()
   
 
@@ -94,6 +97,11 @@ function Meet() {
       }, []);
 
       const handleMessages=(message)=>{
+        if(openChat===false){
+          setReadMsg(false)
+        }else{
+          setReadMsg(true)
+        }
         setMessages((prevMessages)=>[...prevMessages,message])
       }
   
@@ -250,7 +258,7 @@ useEffect(()=>{
     <Typography variant="h6" color="white">
       You 
     </Typography>
-    
+
   </Box>
               </Box>
               
@@ -295,7 +303,11 @@ useEffect(()=>{
                 zIndex:1,
                 }} display={'flex'}justifyContent={'space-between'}>
       <Typography  variant="body1">In-call messages</Typography>
-       <IconButton onClick={()=>setOpenChat(false)} size="small" ><CloseIcon fontSize="small"/></IconButton>
+       <IconButton onClick={() => {
+              
+              setOpenChat(false)
+              setReadMsg(true)
+              }} size="small" ><CloseIcon fontSize="small"/></IconButton>
       </Box>
      
 
@@ -451,13 +463,22 @@ useEffect(()=>{
             alignItems={"center"}
             alignContent={"center"}
             justifyContent={"space-around"} width={"35%"}>
-        <IconButton
-              sx={{ color: "white", bgcolor: "", width: 40, height: 40 }}
-              onClick={()=>setOpenChat(!openChat)}
-            >
-            
-              <ChatIcon /> 
-            </IconButton>
+        {readMesg? <IconButton
+            onClick={() => setOpenChat(!openChat)}
+            sx={{ color: "white", bgcolor: "", width: 40, height:40}}
+          >
+            <ChatIcon />
+          </IconButton>:<IconButton
+            onClick={() => {
+              setOpenChat(!openChat)
+              setReadMsg(true) 
+               }}
+            sx={{ color: "white", bgcolor: "", width: 40, height:40}}
+          >
+            <Badge variant="dot" color='warning'> 
+            <ChatIcon />
+            </Badge>
+          </IconButton>}
         </Box>
 
         {/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */}
