@@ -9,6 +9,7 @@ import {
   LinearProgress,
   Button,
   TextField,
+  Modal,
   
   
 } from "@mui/material";
@@ -42,7 +43,8 @@ function Apply() {
   const [lName, setLname] = useState(seeker?.lName);
   const [phone, setPhone] = useState("");
   const [questions, setQuestions] = useState([]);
-  
+  const [errMesg,setErrMsg]=useState('')
+  const [err,setErr]=useState(false)
   const navigate = useNavigate();
   useEffect(() => {
     if(!seeker) return navigate('/')
@@ -82,12 +84,12 @@ function Apply() {
     if (pdf) {
       const fileRef = ref(
         storage,
-        `usersCV/${seeker.fName}${seeker._id}CV.pdf`
+        `cv/${seeker.fName}${seeker._id}myCV.pdf`
       );
-      uploadBytes(fileRef, pdf).then(() => {
-        getDownloadURL(fileRef).then((url) => {
-          setCvUrl(url);
-          
+      uploadBytes(fileRef, pdf,{ contentType: "application/pdf" }).then(() => {
+        getDownloadURL(fileRef).then((url) =>{
+        setCvUrl(url);
+         
         });
       });
     }
@@ -129,8 +131,21 @@ function Apply() {
         navigate("/");
       })
       .catch((err)=>{
-       console.log(err);
+      setErr(true)
+      setErrMsg(err.response.data)
+
       });
+  };
+  const style = {
+    position:"absolute",
+    top:"50%",
+    left:"50%",
+    transform:"translate(-50%, -50%)",
+    width:400,
+    bgcolor:"background.paper",
+    borderRadius: 2,
+    boxShadow: 24,
+    p: 4,
   };
   return(
     <div  
@@ -138,6 +153,27 @@ function Apply() {
       background:"linear-gradient(to right, white 50%, #fafafa 50%)",
       }}
     >
+       <Modal 
+        open={err}
+        onClose={()=>setErr(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+ 
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Can't apply !
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+           You {errMesg}
+          </Typography>
+          <Button sx={{marginTop:1}}  variant="contained" onClick={() =>{
+            
+            setErr(false)
+            navigate('/')
+            }}>return</Button>
+        </Box>
+      </Modal>
       <Header></Header>
       {jobToApply&&(
         <>
@@ -155,12 +191,12 @@ function Apply() {
                 <Box paddingTop={2} width={"60%"} minHeight={"500px"}>
                   <Box width={"100%"}>
                     <LinearProgress
-                      sx={{ borderRadius: 1 }}
+                      sx={{borderRadius:1}}
                       variant="determinate"
                       value={progress}
                     ></LinearProgress>
                   </Box>
-
+                  
                   <Box marginTop={3}>
                     <Typography fontWeight={"500"} variant="h5">
                       {showContactForm
@@ -292,7 +328,7 @@ function Apply() {
                                   fontSize={"18px"}
                                   fontWeight={500}
                                 >
-                                  {seeker?.fName + "" + seeker?.lName}
+                                    {seeker?.fName + "" + seeker?.lName}
                                 </Typography>
                                 <Typography
                                   lineHeight={1.5}

@@ -122,6 +122,7 @@ function Applicants(){
   const data={
     candidateId:selectedCandidate?.candidateId,
     candidateName:selectedCandidate?.fName+" "+selectedCandidate?.lName,
+    companyName:selectedCandidate?.companyName, 
     employerID:employer?._id,
     date,
     startTime,
@@ -137,7 +138,7 @@ function Applicants(){
     handleUpdateStatus('Interview-Sheduled')
     handleClose()
     handleMenuClose()
-
+    
     }).catch((err)=>{
     console.log(err.message);
   })
@@ -286,8 +287,7 @@ function Applicants(){
                   >
                     <Tab label="Shortlisted" value="1" />
                     <Tab label="Saved" value="2" />
-                    <Tab label="Interviews" value="3" />
-                  </TabList>
+                   </TabList>
                 </Box>
 
                 <TabPanel value="1">
@@ -394,8 +394,7 @@ function Applicants(){
                   </Box> */}
                   Saved
                 </TabPanel>
-                <TabPanel value="3">Interviews</TabPanel>
-              </TabContext>
+               </TabContext>
             </Box>
           </Grid>
           {/* ********************************************************************************************************************************************************** */}

@@ -168,7 +168,7 @@ function Chat() {
                 <TextField size="small" value={searchQuery} onChange={(e)=>setSearchQuery(e.target.value)} label="Search" fullWidth />
               </Box>
               {/* Conversations list */}
-              {conversations.length &&
+              {conversations.length!==0 &&
                 conversations.map((c,index) => {
                   return (
                     <SeekerConversation

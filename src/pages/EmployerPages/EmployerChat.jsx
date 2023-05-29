@@ -25,6 +25,7 @@ import { setNewMessage } from "../../app/features/employerSlice";
 import { useSocket } from "../../Context/SocketProvider";
 
 function EmployerChat() {
+
  const dispatch=useDispatch()
  const {newMessage}=useSelector((state)=>state.employer)
  const [conversations,setConversations]=useState([])
@@ -36,8 +37,6 @@ function EmployerChat() {
  const [searchQuery,setSearchQuery]=useState('')
  const socket=useSocket()
  
-
-
  useEffect(()=>{
          socket?.emit("addUser",employer?._id)
         socket.on("onlineUsers",(onlineUsers)=>{
@@ -45,7 +44,7 @@ function EmployerChat() {
         setOnlineUsers(onlineUsers)
         })
           return ()=>{
-            socket.emit('removeFromOnline',employer?._id)
+          socket.emit('removeFromOnline',employer?._id)
           }
         },[employer?._id])
  
@@ -189,7 +188,7 @@ function EmployerChat() {
                <TextField size="small" value={searchQuery} onChange={(e)=>setSearchQuery(e.target.value)} label="Search conversations" fullWidth />
               </Box>
               {/* Conversations list */}
-              {conversations.length&&conversations.map((c,index)=>{
+              {conversations.length!==0&&conversations.map((c,index)=>{
                 return(
                 <EmployerConversation  key={index} searchQuery={searchQuery} onlineUsers={onlineUsers} conversation={c} />
                 )
@@ -232,7 +231,7 @@ function EmployerChat() {
    
             <Box
               padding={1}
-              width={"25%"}
+              width={"30%"}
               justifyContent={"space-between"}
               display={"flex"}
             >
@@ -253,7 +252,7 @@ function EmployerChat() {
                     </Avatar>
                   )}
                   </Box>
-                <Box> 
+                <Box > 
               <Typography  variant="h6">
 
                 {chatUser&&chatUser?.name} 

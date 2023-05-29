@@ -22,11 +22,11 @@ function EmployerConversation({ conversation, onlineUsers,searchQuery }) {
           console.log(data, "the user");
           setUser(data);
          })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch((err)=>{
+         console.log(err);
+        })
     }
-  }, [conversation]);
+  },[conversation])
 
   useEffect(()=>{
   if(conversation){

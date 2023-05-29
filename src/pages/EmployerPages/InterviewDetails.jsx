@@ -2,8 +2,9 @@ import React, { useEffect, useState} from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { setChatUser } from '../../app/features/employerSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import {Box,Typography,Container,Button,Avatar,Toolbar} from '@mui/material'
+import {Box,Typography,Container,Button,Avatar,Toolbar, Dialog, DialogTitle, DialogContent, FormControl, RadioGroup, FormControlLabel, DialogActions, Radio} from '@mui/material'
 import axios from '../../axios'
+import { setUserProperties } from 'firebase/analytics'
 function InterviewDetails() {
     const {employer}=useSelector((state)=>state.employer)
     const {id}=useParams()
@@ -11,6 +12,9 @@ function InterviewDetails() {
     const navigate=useNavigate()
     const [application,setApplication]=useState(null)
     const [interviewDetails,setInterviewDetails]=useState(null)
+    const [status, setStatus] = useState("Pending");
+    const [open,setOpen]=useState(false)
+
     
  
 useEffect(()=>{
@@ -28,6 +32,27 @@ setInterviewDetails(data)
 })
 },[])
 
+const handleUpdate=()=>{
+ 
+  const data={
+  status:status
+  }
+
+
+  axios.put(`/applications/interview/${interviewDetails?._id}`,data,{withCredentials:true}).then(({data})=>{
+  setInterviewDetails(data)
+  window.alert('status updated')
+  setOpen(false)
+  }).catch((err)=>{
+  console.log(err);
+  })
+}
+
+
+const handleChangeStatus=(e)=>{
+  setStatus(e.target.value)
+}
+
   return (
     <Box
       component="main"
@@ -39,7 +64,39 @@ setInterviewDetails(data)
       }}
     >
       <Toolbar />
-      
+      <Dialog open={open} onClose={()=>setOpen(false)}>
+      <DialogTitle>Update Status</DialogTitle>
+      <DialogContent>
+        <FormControl component="fieldset">
+          <RadioGroup  name="status" value={status} onChange={handleChangeStatus} row>
+            <FormControlLabel
+              value="Hired"
+              control={<Radio color="primary" />}
+              label="Hired"
+            />
+            <FormControlLabel
+              value="Rejected"
+              control={<Radio color="primary" />}
+              label="Rejected"
+               
+            />
+            <FormControlLabel
+              value="Pending"
+              control={<Radio color="primary" />}
+              label="Pending"
+            />
+          </RadioGroup>
+        </FormControl>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={()=>setOpen(false)} color="secondary">
+          Cancel
+        </Button>
+        <Button onClick={handleUpdate} color="primary">
+          Update
+        </Button>
+      </DialogActions>
+    </Dialog>
 
       <Container sx={{paddingTop:2}}>
         <Box
@@ -54,7 +111,7 @@ setInterviewDetails(data)
         >
           {/* ********************************************** */}
  
-          <Box >
+          <Box>
             <Box marginTop={1} display={"flex"}>
               <Box>
                 <Avatar
@@ -114,17 +171,24 @@ setInterviewDetails(data)
             maxHeight={30}
             padding={0.5}
           >
+
             <Typography fontWeight={600} variant="body2" color={"white"}>
               {application?.status}
             </Typography>
           </Box>
         </Box>
         </Box>
+
         {/* ********************************************** */}
 
 
-<Box display={'flex'} justifyContent={'space-between'}> 
+<Box display={'flex'} justifyContent={'space-between'}>   
+
+
+
 {/* ********************************Application Details****************************************************************************** */}
+
+
 
         <Box
           padding={2}
@@ -224,15 +288,15 @@ setInterviewDetails(data)
           width={'48%'}
         >
           <Box display={'flex'} justifyContent={'space-between'}>
-            <Box> 
-            <Typography variant="h6">Interview Details</Typography>
-            </Box>
             <Box>
-                <Button size='small' variant='contained'>Reshedule</Button>
+          <Typography variant="h6">Interview Details</Typography>
             </Box>
+            {/* <Box>
+                <Button size='small' variant='contained'>Reshedule</Button>
+            </Box> */}
           </Box>
+
           <Box
-            
             marginTop={2}
             border={1}
             borderRadius={1}
@@ -277,7 +341,7 @@ setInterviewDetails(data)
             <Box
               marginTop={1}
               padding={1}
-              borderBottom={0}
+              borderBottom={1}
               sx={{ borderColor: "lightgray" }}
             >
               <Typography color={"gray"}>Interview Mode</Typography>
@@ -292,6 +356,15 @@ setInterviewDetails(data)
               <Typography color={"gray"}>Location</Typography>
               <Typography fontWeight={600}>{interviewDetails?.location}</Typography>
             </Box>}
+             <Box
+              marginTop={1}
+              padding={1}
+              borderBottom={1}
+              sx={{ borderColor: "lightgray" }}
+            >
+              <Typography color={"gray"}>Interview Status</Typography>
+              <Typography fontWeight={600}>{interviewDetails?.status}</Typography>
+            </Box>
              
           </Box>
 
@@ -299,8 +372,8 @@ setInterviewDetails(data)
             <Box>
              <Button onClick={()=>navigate(`/start-meet`)} color='success' variant='contained'>Start Interview</Button>
             </Box>
-            <Box>
-             <Button variant='outlined'>Update status</Button>
+            <Box> 
+             <Button onClick={()=>setOpen(true)} variant='outlined'>Update status</Button>
             </Box>
              
           </Box>

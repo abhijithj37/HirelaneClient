@@ -733,7 +733,10 @@ function BuildResume() {
                   label="Add Your Skills"
                   onChange={(e) => setSkill(e.target.value)}
                 ></TextField>
-                <IconButton onClick={() => addSkills(skill)}>
+                <IconButton onClick={() => {
+                  addSkills(skill)
+                  setSkill('')
+                  }}>
                   <AddIcon />
                 </IconButton>
               </Grid>

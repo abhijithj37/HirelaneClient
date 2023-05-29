@@ -223,7 +223,7 @@ const JobDetails = () => {
             <Box padding={1} sx={{ wordWrap: "break-word" }}>
               <Typography variant="h6">Full Job Description</Typography>
 
-              <Typography sx={{ opacity: 0.8 }} variant="subtitle2">
+              <Typography  variant="subtitle2">
                 {jobDetails && jobDetails.description}
               </Typography>
             </Box>
