@@ -47,7 +47,7 @@ function SeekerSingleMessage({message,scrollRef}) {
         {message?.message}
       </div>
       <div
-style={{
+style={{ 
 alignSelf:"flex-end",
 fontSize:"12px",
 color:"#999",

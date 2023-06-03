@@ -26,7 +26,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import { useConnectUser } from "../../Utils/api";
- 
+  
 function Header() {
    const { seeker } = useSelector((state) => state.seeker);
   const [anchorElNav,setAnchorElNav]=React.useState(null);
@@ -65,6 +65,7 @@ function Header() {
   
   }
 useConnectUser()
+ 
 
   return (
 
@@ -187,7 +188,7 @@ useConnectUser()
               <IconButton onClick={()=>navigate('/messages')}>
                 <ChatIcon/>
               </IconButton>
-              <IconButton>
+              <IconButton onClick={()=>navigate('/notifications')}>
                 <NotificationsActiveIcon/>
               </IconButton>
               <Menu

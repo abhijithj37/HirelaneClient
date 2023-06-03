@@ -41,6 +41,7 @@ import Join from "./pages/SeekerPages/JoinMeet";
 import EmpMeet from "./pages/EmployerPages/Emp-Meet";
 import { SocketProvider, useSocket } from "./Context/SocketProvider";
 import Meet from "./pages/SeekerPages/Meet";
+import UserNotifications from "./pages/SeekerPages/UserNotifications";
 
 
 function App() {
@@ -83,7 +84,7 @@ function App() {
       return ()=>{
       socket?.disconnect()
       }
-  }, []);
+  }, [dispatch,socket]);
 
   
 
@@ -120,6 +121,8 @@ function App() {
         ></Route>
         <Route path="/jobDetails/:id" element={<JobDetails />}></Route>
         <Route path="/messages" element={<Messages />}></Route>
+        <Route path="/notifications" element={<UserNotifications />}></Route>
+
         <Route path="/apply/:id" element={<Apply />}></Route>
         <Route path="/join" element={<Join />}></Route>
 
