@@ -14,14 +14,13 @@ const postSlice=createSlice({
     initialState,
     reducers:{
         setPosts:(state,action)=>{
-            state.posts=action.payload
-            
+        state.posts=action.payload 
         },
         setPostId:(state,action)=>{ 
          state.postId=action.payload
-    },
-    setJobDetails:(state,action)=>{
-     state.jobDetails=action.payload
+        },
+        setJobDetails:(state,action)=>{
+        state.jobDetails=action.payload
     }
 }
 })

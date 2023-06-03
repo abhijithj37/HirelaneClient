@@ -13,7 +13,6 @@ import {
 import React, { useState } from "react";
 import CancelIcon from "@mui/icons-material/Cancel";
 import server from "../../axios";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -39,7 +38,7 @@ function CreateNewPost() {
   const addScreeningQuestions=()=>{
     setScreeningQuestions([
       ...screeningQuestions,
-      { question: "", responseType: "yesNo" },
+      {question:"",responseType:"yesNo"},
     ]);
   };
   const handleQuestionChange = (index, question) => {
@@ -109,10 +108,10 @@ function CreateNewPost() {
     setJobLocation(input);
 
     if(input==="")return setJobsuggessions([]);
-    axios
-      .get(`http://localhost:4005/locations?input=${input}`,{
-        withCredentials: true,
-      })
+    server
+      .get(`/posts/locations?input=${input}`,{
+          withCredentials:true,
+      }) 
       .then(({data})=>{
         setJobsuggessions(data);
       })

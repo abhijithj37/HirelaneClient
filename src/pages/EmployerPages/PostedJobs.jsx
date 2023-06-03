@@ -103,7 +103,7 @@ function PostedJobs() {
         </Alert>
       </Snackbar>
       <Toolbar />
-      <Container  maxWidth="md" sx={{mt:4,mb:4}}>
+      <Container  maxWidth="lg" sx={{mt:4,mb:4}}>
       <Typography gutterBottom  variant="h5" fontWeight={500}>
        Posted jobs 
       </Typography>
@@ -136,14 +136,20 @@ function PostedJobs() {
                 <Grid item lg={1.3}>
                 <BusinessIcon color="disabled" fontSize="large" />
                 </Grid>
-                <Grid item lg={10}>
+                <Grid item lg={6}>
                   <Typography gutterBottom  to={`jobDetails/${job._id}`} component={Link} variant="h6">
                   {job.jobTitle}
                   </Typography>
                   <Typography color={"secondary"}>{job.companyName}</Typography>
                   <Typography gutterBottom>{job.jobLocation}</Typography>
-                  <Typography color={"gray"}>Posted On:{job.createdAt}</Typography>
+                  <Typography color={"gray"}>Posted on:{new Date(job.createdAt).toLocaleDateString('en-us',{day:'numeric',month:'short',year:'numeric'})}</Typography>
                 </Grid>
+                <Grid display={'flex'} alignItems={'center'} alignContent={'center'} item lg={4}>
+                  {/* <Box padding={.5} borderRadius={2} bgcolor={'#dd2c00'}> */}
+                    
+                    <Typography variant="body2" color={job.status==='Approved'?'green':'error'}>{job.status}</Typography>
+                   {/* </Box> */}
+                  </Grid>
                 <Grid item lg={0.7}>
                   <IconButton
                     aria-controls="options-menu"
@@ -188,7 +194,7 @@ function PostedJobs() {
         )}
       </Container>
     </Box>
-  );
+  );    
 }
 
 export default PostedJobs;

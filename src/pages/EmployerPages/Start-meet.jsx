@@ -1,5 +1,4 @@
-import { io } from "socket.io-client";
-import React, { useEffect } from "react";
+ import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -14,12 +13,13 @@ import { useSocket } from "../../Context/SocketProvider";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmpStream } from "../../app/features/employerSlice";
+
  
 function EmpInterviewPage() {
   const socket=useSocket()
   const meet=uuid()
   const dispatch=useDispatch()
-  const {employer,myStream}=useSelector((state)=>state.employer)
+  const {employer}=useSelector((state)=>state.employer)
   const navigate=useNavigate()
   
 
@@ -32,16 +32,17 @@ function EmpInterviewPage() {
       });
       dispatch(setEmpStream(stream))
     },
-    [socket]
+    [dispatch]
   );
   const handleStartMeet=useCallback(()=>{
   const user={name:employer?._id,userId:employer?._id }
   socket.emit('join:meet',{user,meet})
   createMyStream()
-  },[meet,socket,employer?._id])
+  },[meet,socket,employer?._id,createMyStream])
 
   const handleJoinMeet=useCallback((data)=>{
-  const {user,meet}=data
+  const {meet}=data
+  
   navigate(`/emp-meet/${meet}`)
   },[navigate])
 
@@ -93,7 +94,7 @@ function EmpInterviewPage() {
             lg={6}
           >
             <Box>
-              <img width={650} height={500} src={backGroudImg} />
+              <img alt="cover" width={650} height={500} src={backGroudImg} />
               <Typography variant="body2" color={"gray"}>
               Conduct interview and pick the right candidate with Hirelane
               </Typography>

@@ -1,13 +1,11 @@
 import React, { useEffect, useState} from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { setChatUser } from '../../app/features/employerSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {Box,Typography,Container,Button,Avatar,Toolbar, Dialog, DialogTitle, DialogContent, FormControl, RadioGroup, FormControlLabel, DialogActions, Radio} from '@mui/material'
 import axios from '../../axios'
-import { setUserProperties } from 'firebase/analytics'
-function InterviewDetails() {
-    const {employer}=useSelector((state)=>state.employer)
-    const {id}=useParams()
+ function InterviewDetails() {
+     const {id}=useParams()
     const dispatch=useDispatch()
     const navigate=useNavigate()
     const [application,setApplication]=useState(null)
@@ -16,8 +14,7 @@ function InterviewDetails() {
     const [open,setOpen]=useState(false)
 
     
- 
-useEffect(()=>{
+    useEffect(()=>{
     axios.get(`applications/emp-getApplication/${id}`,{withCredentials:true}).then(({data})=>{
         setApplication(data)
     }).catch((err)=>{
@@ -50,7 +47,7 @@ const handleUpdate=()=>{
 
 
 const handleChangeStatus=(e)=>{
-  setStatus(e.target.value)
+setStatus(e.target.value)
 }
 
   return (
@@ -125,10 +122,10 @@ const handleChangeStatus=(e)=>{
                 </Typography>
 
                 <Typography variant="body2" color={"gray"}>
-                  Applied on {application?.createdAt}
+                  Applied on {new Date(application?.createdAt).toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'})}
                 </Typography>
               </Box>
-            </Box>
+            </Box> 
             <Box display={"flex"} padding={0} marginTop={1}>
               <Button
                 target="_blank"

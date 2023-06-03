@@ -42,7 +42,7 @@ function MyJobs() {
     })
     }
      
-  },[])
+  },[dispatch,seeker])
 
   useEffect(()=>{
     axios.get('/applications/interviews',{withCredentials:true}).then(({data})=>{
@@ -197,9 +197,6 @@ function MyJobs() {
                     </Typography>
                     <Divider sx={{ marginTop: 1 }} />
                   </Box>
-
-
-
           {applications.length&&applications.map((data,index)=>{
               return(
               <Grid item container marginTop={3}>
@@ -213,28 +210,28 @@ function MyJobs() {
                         bgcolor={"#eeeeee"}
                         borderRadius={2}
                       >
-                      <BusinessIcon color="action" />
+                      <BusinessIcon color="action"/>
                       </Box>
                     </Grid>
                     <Grid item lg={7.7}>
                       <Box>
-                        {/* <Box
+                        <Box
                           borderRadius={1}
                           display={"flex"}
                           justifyContent={"center"}
                           alignItems={"center"}
-                          bgcolor={"#e1f5fe"}
-                          width={70}
+                          bgcolor={data.verificationStatus==='Approved'?'#66bb6a':"#e57373"}
+                          width={90}
                           height={25}
                         >
                           <Typography
                             fontWeight={600}
-                            variant="body2"
-                            color={"primary"}
-                          >
-                            {data.status}
+                            variant="caption"
+                            color={"white"}
+                          >{data.verificationStatus==='Approved'?'Submitted':
+                            data.verificationStatus}  
                           </Typography>
-                        </Box> */}
+                        </Box>
                         <Box marginTop={0.5}>
                           <Typography
                             variant="h6"

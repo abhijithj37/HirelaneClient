@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Header from '../../Components/userComponents/Header'
-import { Box, Button, Container, Divider, Grid, Toolbar, Typography } from '@mui/material';
+import { Box, Button, Container, Divider, Grid, Typography } from '@mui/material';
 import { ApartmentRounded, LocalAtm, Timeline, Work } from '@mui/icons-material';
 import JobDetailSkeleton from '../../Skeletons/JobDetailSkeleton';
+import { useSelector } from 'react-redux';
 
 function JobDetails() {
 
-    const [jobDetails,setJobDetails]=useState(null)
-    
+ const {jobDetails}=useSelector((state)=>state.posts)    
   return (
     <>
     <Header></Header>

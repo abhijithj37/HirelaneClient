@@ -129,7 +129,11 @@ function ApplicationDetails() {
                       </Box>
                       <Box>
                         <Typography variant="caption" color={"gray"}>
-                         Applied on {element.createdAt}
+                         Applied on {new Date(element.createdAt).toLocaleDateString('en-US',{
+                          day:'numeric',
+                          month:'short',
+                          year:'numeric' 
+                         }) }
                         </Typography>
                       </Box>
                     </Box>

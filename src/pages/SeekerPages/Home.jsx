@@ -27,12 +27,19 @@ function Home() {
   const [jobKeyWord, setJobKeyword] = useState("");
   const dispatch=useDispatch();
   const { posts }=useSelector((state) =>state.posts);
+
+
+
   useEffect(() => {
-    axios.get("/posts/getJobs",{withCredentials:true}).then(({ data }) => {
-      dispatch(setPosts(data.jobs));
-      dispatch(setPostId(data.jobs[0]._id));
+    axios.get("/posts/verified-jobs",{withCredentials:true}).then(({ data }) => {
+      dispatch(setPosts(data));
+      dispatch(setPostId(data[0]?._id));
     });
   }, [dispatch]);
+
+
+
+
 
   const handleJobLocationChange = (value) => {
     const input = value;
@@ -40,9 +47,9 @@ function Home() {
 
     if (input==="")return setLocationSuggessions([]);
 
-    axios
-      .get(`http://localhost:4005/locations?input=${input}`, {
-        withCredentials: true,
+    server
+      .get(`/posts/locations?input=${input}`, {
+        withCredentials:true,
       })
       .then(({ data }) => {
         setLocationSuggessions(data);
@@ -51,6 +58,9 @@ function Home() {
        console.log(error.message);
       });
   };
+
+
+
   const handleSelectSuggession=(suggession) => {
     const city = suggession.city;
     const state =suggession.state;
@@ -66,8 +76,7 @@ function Home() {
         withCredentials: true,
       })
       .then(({ data }) => {
-        console.log("the job suggessions data", data);
-        setJobsuggessions(data.jobs);
+         setJobsuggessions(data.jobs);
       })
       .catch((error) => {
         console.log(error.message);
@@ -77,19 +86,17 @@ function Home() {
     setJobKeyword(suggession);  
     setJobsuggessions([]);
   };
-  const handleSearch = (e) => {
+  const handleSearch=(e)=>{
     e.preventDefault();
     if (jobLocation === "" && jobKeyWord === "") return;
     const data = {
       jobKeyWord,
       jobLocation,
     };
-  
     server
       .post("/posts/searchJob",data,{withCredentials:true})
       .then(({ data }) => {
-        console.log(data,'its hhhhh');
-        if(!data.jobs.length) return setSearchError(true);
+         if(!data.jobs.length) return setSearchError(true);
         setSearchError(false)
         dispatch(setPosts(data.jobs));
         dispatch(setPostId(data.jobs[0]._id));
@@ -123,7 +130,7 @@ function Home() {
                       zIndex: "999",
                     }}
                   >
-                    {jobSuggessions.map((suggession) => (
+                    {jobSuggessions?.map((suggession) => (
                       <MenuItem
                         key={suggession._id}
                         onClick={() =>
@@ -219,7 +226,7 @@ function Home() {
               </Typography>
               <Divider sx={{ marginTop: 2, marginBottom: 2 }}></Divider>
 
-              {posts.map((post, idx) => (
+              {posts?.map((post, idx) => (
                 <Box
                   onClick={() => {
                     dispatch(setPostId(post._id));

@@ -63,7 +63,11 @@ function CandidateDetails({ jobApplication}) {
             {jobApplication?.fName + " " + jobApplication?.lName}'s application
           </Typography>
           <Typography variant="body2" color={"gray"}>
-            Applied on {jobApplication?.createdAt}
+            Applied on {new Date(jobApplication?.createdAt).toLocaleDateString('en-US',{
+              day:'numeric',
+              month:'long',
+              year:'numeric'
+            })}
           </Typography>
           </Box>
 

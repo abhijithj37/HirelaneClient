@@ -12,15 +12,13 @@ function EmployerConversation({ conversation, onlineUsers,searchQuery }) {
   
   const dispatch = useDispatch();
    
-
   useEffect(() => {
     if (conversation) {
       const id = conversation.chatUsers.find((id) => id !== employer?._id);
       axios
-        .get(`/seeker/details/${id}`, { withCredentials: true })
+        .get(`/employer/user-details/${id}`, { withCredentials: true })
         .then(({ data }) => {
-          console.log(data, "the user");
-          setUser(data);
+           setUser(data);
          })
         .catch((err)=>{
          console.log(err);
@@ -28,11 +26,12 @@ function EmployerConversation({ conversation, onlineUsers,searchQuery }) {
     }
   },[conversation])
 
+
+
   useEffect(()=>{
   if(conversation){
     axios.get(`/chat/emp-unreadMessages/${conversation._id}`,{withCredentials:true}).then(({data})=>{
-    console.log(data,'its the unread message');
-    setUnreadMessages(data.filter((mesg)=>mesg.from!=employer?._id))
+     setUnreadMessages(data.filter((mesg)=>mesg.from!=employer?._id))
     }).catch((err)=>{
     console.log(err);
     })
@@ -52,7 +51,6 @@ function EmployerConversation({ conversation, onlineUsers,searchQuery }) {
         }}
         sx={{
           cursor: "pointer",
-
           ":hover": {
             backgroundColor: "#e0e0e0",
           },

@@ -87,7 +87,7 @@ import { setEmployer } from "../../app/features/employerSlice";
     if (!name.trim().match(nameRegex)) {
       setErrorMessage("First name should contain only alphabets")
       return false
-    }
+    } 
     if (!companyName.match(companyNameRegex)) {
       setErrorMessage("Last name should contain only alphabets")
       return false
@@ -152,8 +152,7 @@ import { setEmployer } from "../../app/features/employerSlice";
 
 
   const handleSubmit=(e) =>{
-    
-    
+
     // Define validation rules
     if(handleValidation()){
       handleEmailVerification()

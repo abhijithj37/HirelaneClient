@@ -4,6 +4,7 @@ import {
   createRoutesFromElements,
   Route,
   Navigate,
+  
 } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -28,8 +29,7 @@ import Apply from "./pages/SeekerPages/Apply";
 import MyJobs from "./pages/SeekerPages/MyJobs";   
 import EmployerApplication from "./pages/EmployerPages/EmployerApplication";
 import ApplicationDetails from "./pages/EmployerPages/ApplicationDetails";
-import CandidateDetails from "./pages/EmployerPages/CandidateDetails";
-import EmployerChat from "./pages/EmployerPages/EmployerChat";
+ import EmployerChat from "./pages/EmployerPages/EmployerChat";
 import Messages from "./pages/SeekerPages/Chat";
 import JobDetails from "./pages/SeekerPages/JobDetails";
 import Applicants from "./pages/EmployerPages/Applicants";
@@ -55,24 +55,37 @@ function App() {
     Promise.allSettled([verifyEmployer(), verifySeeker()])
       .then(([employer, jobSeeker]) => {
         if (employer && employer.status === "fulfilled") {
+          if(employer.value.blocked){
+           dispatch(setEmployer(null));
+          }else{
           dispatch(setEmployer(employer.value));
-        }
+          socket?.emit('connect-user',employer.value?._id)
+
+          }
+         }
         if (jobSeeker && jobSeeker.status === "fulfilled") {
-          console.log(jobSeeker, "seeker result");
-          dispatch(setSeeker(jobSeeker.value));
+          if(jobSeeker.value.blocked){
+            dispatch(setSeeker(null));
+
+          }else{
+            dispatch(setSeeker(jobSeeker.value));
+           }
+ 
         }
         setLoading(false);
       })
       .catch((error) => {
+        console.log(error);
         if (error.message === "Unauthorized") {
           console.log(error);
         }
       });
-
       return ()=>{
-        socket?.disconnect()
+      socket?.disconnect()
       }
   }, []);
+
+  
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -107,14 +120,13 @@ function App() {
         ></Route>
         <Route path="/jobDetails/:id" element={<JobDetails />}></Route>
         <Route path="/messages" element={<Messages />}></Route>
-
         <Route path="/apply/:id" element={<Apply />}></Route>
         <Route path="/join" element={<Join />}></Route>
 
         <Route
           path="/employerSignup"
           element={
-            employer ? <Navigate to={"/employer"} /> : <EmployerSignUp />
+          employer?<Navigate to={"/employer"} />:<EmployerSignUp/>
           }
         />
         <Route
@@ -157,7 +169,7 @@ function App() {
         ></Route>
         <Route
           path="/emp-meet/:id"
-          element={employer ? <EmpMeet />:<Navigate to={"/employerLogin"} />}
+          element={employer?<EmpMeet/>:<Navigate to={"/employerLogin"}/>}
         ></Route>
 
       </Route> 
@@ -166,12 +178,12 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="App">
-        <SocketProvider> 
+        <SocketProvider>
         {loading ? <div></div> : <RouterProvider router={router} />}
         </SocketProvider>
       </div>
     </LocalizationProvider>
-  );
+  )
 }
 
 export default App;

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useReducer, useRef } from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useSelector } from "react-redux";
+import {   useNavigate, useParams } from "react-router-dom";
 import {
   Container,
   Grid,
@@ -31,8 +31,7 @@ function EmpMeet() {
   const socket = useSocket();
   const { employer, myStream } = useSelector((state) => state.employer);
   const { id } = useParams();
-  // const [myStream, setMyStream] = useState(null);
-  const [remoteStream, setRemoteStream] = useState(null);
+   const [remoteStream, setRemoteStream] = useState(null);
   const [remoteSocketId, setRemoteSocketId] = useState(null);
   const [remoteUser, setRemoteUser] = useState(null);
   const [openChat, setOpenChat] = useState(false);
@@ -41,23 +40,14 @@ function EmpMeet() {
   const [audioEnabled, setAudioEnabled] = useState(true);
   const [videoEnabled, setVideoEnabled] = useState(true);
   const [readMesg,setReadMsg]=useState(true)
-  
+   
 
   const scrollRef = useRef();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
- 
-  // const createMyStream = useCallback(
-  //   async () => {
-  //     const stream = await navigator.mediaDevices.getUserMedia({
-  //       audio: true,
-  //       video: true,
-  //     });
-  //     dispatch(setEmpStream(stream))
-  //   },
-  //   [socket]
-  // );
+   
+  
 
+   
   const sendStreams = useCallback(() => {
     for (const track of myStream.getTracks()) {
       peer.peer.addTrack(track, myStream);
@@ -72,9 +62,6 @@ function EmpMeet() {
 
     setRemoteSocketId(id);
     setRemoteUser(user);
-
-    window.alert(`an  user joined the room${user}`);
-    console.log(`userId ${user.name} joined room`);
 
     const offer = await peer.getOffer();
     socket.emit("user:call", { to: id, offer, userData });
@@ -125,13 +112,21 @@ function EmpMeet() {
       createdAt: new Date(),
       content: newMessage,
     };
-
+   
     socket.emit("chat:message", message);
     setMessages((prevMessages) => [...prevMessages, message]);
     setNewMessage("");
   };
+  
   const handleLeaveMeeting = () => {
-    window.location.reload();
+      remoteStream?.getTracks().forEach((track) => track.stop());
+      myStream?.getTracks().forEach((track) => track.stop());
+      navigate('/start-meet')
+    
+    
+    
+    
+ 
   };
 
   const handleToggleVideo = () => {
@@ -158,9 +153,8 @@ function EmpMeet() {
   useEffect(() => {
     peer.peer.addEventListener("track", async (ev) => {
       const remoteStream = ev.streams;
-      console.log("GOT TRACKS!!");
       
-      setRemoteStream(remoteStream[0]);
+      setRemoteStream(remoteStream[0])
      });
   }, []);
 
@@ -168,7 +162,7 @@ function EmpMeet() {
    
 
 
-    // **************************************************************************************************
+ // ***************************************************************************************************
 
 
   useEffect(() => {
@@ -513,6 +507,7 @@ function EmpMeet() {
             onClick={() => setOpenChat(!openChat)}
             sx={{ color: "white", bgcolor: "", width: 40, height:40}}
           >
+
             <ChatIcon />
           </IconButton>:<IconButton
             onClick={() => {
@@ -526,7 +521,7 @@ function EmpMeet() {
             </Badge>
           </IconButton>}
         </Box>
-
+  
         {/* +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */}
       </Box>
     </div>

@@ -1,7 +1,7 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import {format} from 'timeago.js'
+import TimeAgo from 'react-timeago'
 import axios from '../../axios'
 function EmployerSingleMessage({message,scrollRef}) {
 
@@ -10,7 +10,7 @@ function EmployerSingleMessage({message,scrollRef}) {
 
     useEffect(()=>{
 
-    if(message&&message.from!=employer._id&&!message.read){
+    if(message&&message.from!==employer._id&&!message.read){
      const data={
 
      messageId:message._id
@@ -23,7 +23,7 @@ function EmployerSingleMessage({message,scrollRef}) {
      })
     }
 
-    },[message])
+    },[message,employer?._id])
 
   return (
     <div
@@ -32,7 +32,7 @@ function EmployerSingleMessage({message,scrollRef}) {
         style={{
         display:"flex",
         justifyContent:
-        message.from==`${employer?._id}`?"flex-end":"flex-start",
+        message.from===`${employer?._id}`?"flex-end":"flex-start",
         marginBottom:"10px",
       }}
     >
@@ -58,7 +58,7 @@ color:"#999",
 marginTop:"5px",
 }}
 >
-{format(message.createdAt)}
+{<TimeAgo date={message.createdAt}/>  }
 </div>
  </div>
   )

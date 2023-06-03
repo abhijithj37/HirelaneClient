@@ -19,7 +19,7 @@ import empLogo from "../../images/employerLogo.png";
 import {useSelector} from "react-redux";
 import BusinessIcon from "@mui/icons-material/Business";
 import { Outlet, useNavigate } from "react-router-dom";
-  
+   
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar,{
@@ -41,8 +41,8 @@ shouldForwardProp:(prop)=>prop!=="open",
 }));
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
+  shouldForwardProp:(prop) =>prop!=="open",
+})(({theme,open})=>({
   "& .MuiDrawer-paper": {
     position: "relative",
     whiteSpace: "nowrap",
@@ -70,13 +70,18 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
    const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
+   const toggleDrawer = () => {
     setOpen(!open);
   };
-    
+
+ 
 
   const { employer } = useSelector((state) => state.employer);
   const navigate=useNavigate()
+
+   
+        
+  
   return (
     <ThemeProvider theme={mdTheme}>
       <Box sx={{display:"flex"}}>
@@ -109,31 +114,31 @@ function DashboardContent() {
               color="inherit"
               noWrap
               sx={{flexGrow:1}}
-            >
+            >      
               <img width={100} src={empLogo} alt="" />
             </Typography>
             <Typography>
               {employer && (
-                <>
+                <>       
                   <IconButton color="inherit">
                     <BusinessIcon />
                   </IconButton>
                   {employer.email}
-                </>
-              )}
+                </>        
+              )}         
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
-              </Badge>
-            </IconButton>
+              </Badge>        
+            </IconButton>           
             <IconButton onClick={()=>navigate('employerChat')} color="inherit">
               <Badge badgeContent={2} color="secondary">
                 <MessageIcon />
-              </Badge>
-            </IconButton>
-          </Toolbar>
-        </AppBar>
+              </Badge>       
+            </IconButton>         
+          </Toolbar>         
+        </AppBar>          
 
 
         <Drawer variant="permanent" open={open}>

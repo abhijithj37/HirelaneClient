@@ -4,15 +4,16 @@ import {
   Container,
   TextField,
   Typography,
-  Link,
+  
  } from "@mui/material";
 import axios from "../../axios";
-import React, { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setSeeker } from "../../app/features/seekerSlice";
  
-function Login() {
+
+function Login(){
   const [errorMessage, setErrorMessage] = useState("");
   const [formError, setFormError] = useState({});
   const [formData, setFormdata] = useState({
@@ -46,7 +47,7 @@ function Login() {
     axios
       .post(`/seeker/login`,formData,{ withCredentials: true })
       .then(({ data })=>{
-        dispatch(setSeeker(data.seeker));
+        dispatch(setSeeker(data.user));
         navigate("/");
       })
       .catch((error) => {
@@ -58,7 +59,8 @@ function Login() {
       });
   };
 
-  function handleCallbackResponse(response) {
+ 
+   const  handleCallbackResponse = useCallback((response)=> {
     const token = response.credential;
     axios
       .post(`/seeker/googleSignIn`,{token},{withCredentials:true})
@@ -73,7 +75,7 @@ function Login() {
           setErrorMessage(error.response.data);
         }
       });
-  }
+  },[dispatch,navigate])
 
 
 
@@ -88,18 +90,20 @@ function Login() {
       size:"large",
     });
   }, [handleCallbackResponse]);
+
   return (
     <div>
       <Container maxWidth="xs">
         <Box
           padding={3}
           marginTop={15}
+
           sx={{
             bordercolor:"blue",
-            border: 1,
-            boxShadow: 2,
-            borderRadius: 2,
-            borderColor: "lightgray",
+            border:1,
+            boxShadow:2,
+            borderRadius:2,
+            borderColor:"lightgray",
           }}
         >
           <Typography textAlign={"center"} color={"red"}>
@@ -132,8 +136,8 @@ function Login() {
               label="Password"
               type="password"
               value={formData.password}
-              onChange={(e) =>
-                setFormdata({ ...formData, password: e.target.value })
+              onChange={(e)=>
+                setFormdata({...formData, password: e.target.value})
               }
               margin="normal"
               fullWidth

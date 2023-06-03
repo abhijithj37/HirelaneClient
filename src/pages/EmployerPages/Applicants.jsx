@@ -87,6 +87,7 @@ function Applicants(){
     setOpen(true);
   };
   const handleUpdateStatus=(status)=>{
+    
     const data={
     status,
     applicationId:selectedCandidate?._id,
@@ -148,7 +149,6 @@ function Applicants(){
 
 //**********************************************************************************InterviewModal**********************************************************************************************************
    
- 
   useEffect(() => {
     axios
       .get(`/applications/emp-applications`,{withCredentials: true })
@@ -325,7 +325,7 @@ function Applicants(){
                               </Box>
                             </TableCell>
                             <TableCell align="left">{element.jobTitle}</TableCell>
-                            <TableCell align="left">{element.createdAt}</TableCell>
+                            <TableCell align="left">{new Date(element.createdAt).toLocaleDateString('en-US',{day:'numeric',month:'long',year:'numeric'})}</TableCell>
                             <TableCell align="left">
                               <Box>
                                 <IconButton

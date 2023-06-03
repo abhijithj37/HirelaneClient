@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Box,
   Grid,
   TextField,
-  
   Container,
   Avatar,
   IconButton,
@@ -13,7 +12,6 @@ import { Send as SendIcon } from "@mui/icons-material";
 import Logo from '../../images/logo.png'
 import axios from "../../axios";
 import { useSelector } from "react-redux";
-import { io } from "socket.io-client";
 import SeekerConversation from "../../Components/userComponents/SeekerConversation";
 import SeekerMessages from "../../Components/userComponents/SeekerMessages";
 import Header from "../../Components/userComponents/Header";
@@ -30,15 +28,13 @@ function Chat() {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [searchQuery,setSearchQuery]=useState('')
-  // const socket = useRef();
   const socket=useSocket()
 
+
   useEffect(() => {
-    
-    socket.emit("addUser", seeker?._id);
-    socket.on("onlineUsers", (onlineUsers) => {
-      console.log(onlineUsers, "its the online users");
-      setOnlineUsers(onlineUsers);
+    socket.emit("addUser",seeker?._id);
+    socket.on("onlineUsers",(onlineUsers) => {
+    setOnlineUsers(onlineUsers);
     });
 
     return ()=>{
@@ -46,7 +42,7 @@ function Chat() {
 
     }
        
-  }, [seeker?._id]);
+  }, [seeker?._id,socket]);
 
   function formatMessageContent(data) {
     const { message } = data;
@@ -104,7 +100,7 @@ function Chat() {
           console.log(err.message);
         });
     }
-  }, [chatUser,arrivalMessage]);
+  }, [chatUser,arrivalMessage,seeker?._id]);
 
   useEffect(() => {
     axios
@@ -116,7 +112,7 @@ function Chat() {
       .catch((err) => {
         console.log(err);
       });
-  }, [messages]);
+  }, [messages,seeker?._id]);
 
   useEffect(() => {
     if (socket){
@@ -124,7 +120,7 @@ function Chat() {
       setArrivalMessage(data);
       });
     }
-  }, [arrivalMessage]);
+  }, [arrivalMessage,socket]);
   useEffect(() => {
     arrivalMessage && setMessages((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage]);

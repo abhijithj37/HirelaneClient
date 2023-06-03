@@ -18,10 +18,9 @@ function SeekerConversation({ conversation, onlineUsers, searchQuery }) {
     if (conversation) {
       const id = conversation.chatUsers.find((id) => id !== seeker?._id);
       axios
-        .get(`/employer/details/${id}`, { withCredentials: true })
+        .get(`/seeker/company-details/${id}`, { withCredentials: true })
         .then(({ data }) => {
-          console.log(data, "the user");
-          setEmployer(data);
+           setEmployer(data);
         })
         .catch((err) => {
           console.log(err);

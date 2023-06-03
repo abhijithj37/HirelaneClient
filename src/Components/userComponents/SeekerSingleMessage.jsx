@@ -1,14 +1,14 @@
 
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import {format} from 'timeago.js'
 import axios from '../../axios'
+import TimeAgo from 'react-timeago'
 function SeekerSingleMessage({message,scrollRef}) {
 
     const {seeker}=useSelector((state)=>state.seeker)
     
     useEffect(()=>{
-    if(message&&message.from!=seeker?._id&&!message.read){
+    if(message&&message.from!==seeker?._id&&!message.read){
       console.log(message,'this is going to update');
     const data={
     messageId:message._id
@@ -19,7 +19,7 @@ function SeekerSingleMessage({message,scrollRef}) {
      console.log(err.message);
      })
     }
-    },[message])
+    },[message,seeker?._id])
 
   return (
     <div
@@ -28,7 +28,7 @@ function SeekerSingleMessage({message,scrollRef}) {
         style={{
         display:"flex",
         justifyContent:
-        message.from==`${seeker?._id}`?"flex-end":"flex-start",
+        message.from===`${seeker?._id}`?"flex-end":"flex-start",
         marginBottom:"10px",
       }}
     >
@@ -54,7 +54,7 @@ color:"#999",
 marginTop:"5px",
 }}
 >
-{format(message.createdAt)}
+{<TimeAgo date={message.createdAt}/>  }
 </div>
  </div>
   )
