@@ -14,7 +14,7 @@ useEffect(()=>{
     dispatch(setUnreadNotifications([]))
  }
 
-},[e,dispatch])
+},[e,dispatch]) 
 
   return (
     <Box border={1}

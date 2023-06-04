@@ -12,7 +12,7 @@ import {
   TextField,
   Backdrop,
   CircularProgress,
-  Avatar,
+  Avatar, 
   Badge
 } from "@mui/material";
 import MicIcon from "@mui/icons-material/Mic";
@@ -117,7 +117,7 @@ function EmpMeet() {
     setMessages((prevMessages) => [...prevMessages, message]);
     setNewMessage("");
   };
-  
+
   const handleLeaveMeeting = () => {
       remoteStream?.getTracks().forEach((track) => track.stop());
       myStream?.getTracks().forEach((track) => track.stop());
@@ -133,7 +133,7 @@ function EmpMeet() {
     setVideoEnabled((prev)=>!prev);
     const videoTrack = myStream.getVideoTracks()[0];
     videoTrack.enabled = !videoTrack.enabled;
-  };
+  }; 
 
   const handleToggleAudio = () => {
     setAudioEnabled((prev) => !prev);
@@ -362,13 +362,13 @@ function EmpMeet() {
                   style={{
                     display: "flex",
                     justifyContent:
-                      msg.senderId == `${employer?._id}`
+                      msg.senderId ===`${employer?._id}`
                         ? "flex-end"
                         : "flex-start",
                     marginBottom: "10px",
                   }}
                 >
-                  <div
+                  <div 
                     style={{
                       backgroundColor:
                         msg.senderId === `${employer?._id}`

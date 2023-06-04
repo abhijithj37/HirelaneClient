@@ -20,7 +20,7 @@ Button
 } from "@mui/material";
 import axios from "../../axios";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const Interviews = () => {
   const { employer } = useSelector((state) => state.employer);
@@ -182,16 +182,7 @@ const Interviews = () => {
                   </TableContainer>
                 </TabPanel>
                 <TabPanel value="2">
-                  {/* <Box marginTop={2}>
-                  <Typography
-                    fontWeight={600}
-                    sx={{ opacity: 0.7 }}
-                    variant="h6"
-                  >
-                    Last 14 Days
-                  </Typography>
-                  <Divider sx={{ marginTop: 1 }} />
-                </Box> */}
+                   
                   Saved
                 </TabPanel>
                 <TabPanel value="3">Interviews</TabPanel>

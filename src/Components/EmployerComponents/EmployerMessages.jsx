@@ -1,7 +1,6 @@
 import { Box, } from "@mui/material";
  import React, { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
- import EmployerSingleMessage from "./EmployerSingleMessage";
+  import EmployerSingleMessage from "./EmployerSingleMessage";
 function EmployerMessages({messages}) {
      const scrollRef = useRef();
       
@@ -12,7 +11,7 @@ function EmployerMessages({messages}) {
    
   },[messages])
 
-  
+   
   return(
     <Box
             padding={3}

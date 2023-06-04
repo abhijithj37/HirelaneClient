@@ -5,7 +5,6 @@ import {
     Divider,
     Grid,
     MenuItem,
-    Paper,
     TextField,
     Toolbar,
     Typography,
@@ -59,15 +58,12 @@ import {
     const handleUpdatePost = (e) => {
       e.preventDefault();
       const jobTitleRegex = /^[A-Za-z\s]+$/;
-      const openingRegex = /^0*?[1-9]\d*$/;
-  
+   
       const errors = {};
       if (!jobTitle.match(jobTitleRegex)) {
         errors.jobTitle = "Job title should only contains alphabets";
       }
-    //   if (!noOfOpenings?.match(openingRegex)) {
-    //     errors.noOfOpenings = "Invalid input";
-    //   }
+   
   
       if (description.length < 100) {
         errors.description = "Minimum 100 Characters Required";
@@ -163,7 +159,7 @@ server.get(`posts/getJob/${id}`,{withCredentials:true}).then(({data})=>{
         }}
       >
         <Toolbar/>
-     
+      
         <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
           <Grid container>
             {/*Chart*/}

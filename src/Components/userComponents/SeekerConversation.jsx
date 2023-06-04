@@ -1,7 +1,6 @@
-import { Avatar, Box, Button, Divider, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import axios from "../../axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setChatEmployer } from "../../app/features/seekerSlice";
 import { styled } from "@mui/material/styles";
@@ -22,11 +21,11 @@ function SeekerConversation({ conversation, onlineUsers, searchQuery }) {
         .then(({ data }) => {
            setEmployer(data);
         })
-        .catch((err) => {
+        .catch((err) => { 
           console.log(err);
         });
     }
-  }, [conversation]);
+  }, [conversation,seeker?._id]);
 
   useEffect(() => {
     if (conversation) {
@@ -36,13 +35,13 @@ function SeekerConversation({ conversation, onlineUsers, searchQuery }) {
         })
         .then(({ data }) => {
           console.log(data, "its the unread seeker message");
-          setUnreadMessages(data.filter((mesg)=>mesg.from!=seeker?._id))
+          setUnreadMessages(data.filter((mesg)=>mesg.from!==seeker?._id))
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [conversation]);
+  }, [conversation,seeker?._id]);
 
   return (
     <div>
@@ -63,7 +62,7 @@ function SeekerConversation({ conversation, onlineUsers, searchQuery }) {
             },
           
           }}
-          bgcolor={employer?._id==chatUser?._id&&'#eceff1'}
+          bgcolor={employer?._id===chatUser?._id&&'#eceff1'}
           
           onClick={() => {
             dispatch(

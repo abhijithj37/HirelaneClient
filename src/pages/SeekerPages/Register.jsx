@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Container,
   TextField,
   Button,
   Typography,
-  Link,
   Snackbar,
   Alert,
 } from "@mui/material";
@@ -90,8 +89,7 @@ import { setSeeker } from "../../app/features/seekerSlice";
       }
     }
 
-    // Set error messages for invalid fields
-
+ 
     setFormError(errors);
     if (Object.keys(errors).length !== 0) {
         return false
@@ -137,7 +135,7 @@ import { setSeeker } from "../../app/features/seekerSlice";
 
 
 
-  function handleCallbackResponse(response){
+  const handleCallbackResponse =useCallback((response)=>{
     const token = response.credential;
     axios
       .post(`/seeker/googleSignIn`,{ token },{ withCredentials: true })
@@ -148,7 +146,7 @@ import { setSeeker } from "../../app/features/seekerSlice";
       .catch((error) => {
         console.log(error.message);
       });
-  }
+  },[dispatch,navigate])
 
 
   useEffect(() => {
@@ -161,7 +159,7 @@ import { setSeeker } from "../../app/features/seekerSlice";
       theme:"outline",
       size:"large",
     });
-  },[]);
+  },[handleCallbackResponse]);
 
 
   return (

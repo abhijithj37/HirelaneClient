@@ -4,8 +4,7 @@ import {Container,Grid,Typography,TextField,Button,Box} from '@mui/material'
 import { useSocket } from '../../Context/SocketProvider'
 import { useNavigate } from 'react-router-dom'
  import { useDispatch, useSelector } from 'react-redux'
-import { setUserProperties } from 'firebase/analytics'
-import { setMystream } from '../../app/features/seekerSlice'
+ import { setMystream } from '../../app/features/seekerSlice'
 function Join() {
 
   const socket=useSocket()
@@ -79,7 +78,7 @@ function Join() {
 <TextField error={!!err} helperText={err||" "} value={meetId} onChange={(e)=>setMeetId(e.target.value)} sx={{borderRadius:3}}  margin='dense' fullWidth size='small' label='Meeting Id'></TextField>
  </Box>
  <Box marginTop={2}>
-<Button sx={{borderRadius:4}} disabled={meetId==""} onClick={handleStartMeet} fullWidth variant='contained'>Join</Button>
+<Button sx={{borderRadius:4}} disabled={meetId===""} onClick={handleStartMeet} fullWidth variant='contained'>Join</Button>
 </Box>
 </Grid>
         </Grid>

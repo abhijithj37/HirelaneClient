@@ -37,8 +37,7 @@ function Login(){
       errors.password = "Password should contain at least 8 characters";
     }
 
-    // Set error messages for invalid fields
-
+ 
     setFormError(errors);
     if(Object.keys(errors).length !== 0) {
     return;

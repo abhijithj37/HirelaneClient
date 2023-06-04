@@ -106,7 +106,7 @@ function ApplicationDetails() {
                     key={element._id}
                       marginTop={2}
                       sx={{ borderColor: "lightgray",
-                       cursor: "pointer",
+                       cursor: "pointer", 
               
                       ":hover": {
                         backgroundColor: "#e0e0e0",

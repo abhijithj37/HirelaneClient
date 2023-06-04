@@ -41,7 +41,7 @@ function CandidateDetails({setIndex, jobApplication}){
     jobId:jobApplication?.jobId
     }
   
-    
+     
     axios.put('/applications/update-status',data,{withCredentials:true}).then(({data})=>{
     const content=`Your Job application for ${jobApplication?.jobTitle} was ${status}`
     setIndex(0)

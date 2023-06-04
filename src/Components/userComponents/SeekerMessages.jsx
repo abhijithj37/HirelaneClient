@@ -27,7 +27,7 @@ function SeekerMessages({messages}) {
               <SeekerSingleMessage scrollRef={scrollRef} key={index} message={message}/>
         
               
-            ))}
+            ))} 
           </Box>
       
         

@@ -10,7 +10,7 @@ const {postId}=useSelector((state)=>state.posts)
     <> 
     {post?<Paper
       
-      sx={{ minHeight:200,maxHeight:300,padding: 2,borderRadius:2,marginBottom:2,borderColor:post?._id==postId&&'blue'}}
+      sx={{ minHeight:200,maxHeight:300,padding: 2,borderRadius:2,marginBottom:2,borderColor:post?._id===postId&&'blue'}}
       variant="outlined"
       
       
@@ -24,7 +24,7 @@ const {postId}=useSelector((state)=>state.posts)
         bgcolor={"lightgray"}
         marginTop={1}
         borderRadius={1}
-        fontFamily={"initial"}
+        fontFamily={"initial"} 
         width={100}
         border={1}
         borderColor={"lightgray"}

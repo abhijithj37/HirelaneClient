@@ -14,7 +14,7 @@ const dispatch=useDispatch()
     dispatch(setEmployerUnreadNotifications([]))
     dispatch(setUpdated((prev)=>!prev))
      
-
+ 
  }
 
 },[e,dispatch])

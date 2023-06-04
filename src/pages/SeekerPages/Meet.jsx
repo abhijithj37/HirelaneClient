@@ -13,7 +13,6 @@ import {
   TextField,
   Badge
 } from "@mui/material";
-import { io } from "socket.io-client";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import VideocamIcon from "@mui/icons-material/Videocam";
@@ -22,8 +21,7 @@ import CallEndIcon from "@mui/icons-material/CallEnd";
 import peer from   "../../Service/Peer";
 import ReactPlayer from "react-player";
 import { useSocket } from "../../Context/SocketProvider";
-import VideoCallIcon from "@mui/icons-material/VideoCall";
-import TopBar from "../meetings/TopBar";
+ import TopBar from "../meetings/TopBar";
 import ChatIcon from '@mui/icons-material/Chat';
 import CloseIcon from '@mui/icons-material/Close';
 import { Send as SendIcon } from "@mui/icons-material";
@@ -32,8 +30,7 @@ function Meet() {
   const socket = useSocket()
   const { seeker,myStream } = useSelector((state) => state.seeker);
   const { id } = useParams();
-  // const [myStream, setMyStream] = useState(null);
-  const [remoteStream,setRemoteStream]=useState(null)
+   const [remoteStream,setRemoteStream]=useState(null)
   const [remoteSocketId,setRemoteSocketId]=useState(null)
   const [joined,setJoined]=useState(false)
   const [remoteUser,setRemoteUser]=useState(null)
@@ -50,14 +47,7 @@ function Meet() {
 
   
 
-  // const createMyStream = async () => {
-  //   const stream = await navigator.mediaDevices.getUserMedia({
-  //     audio:true,
-  //     video:true,
-  //   });
-  //   setMyStream(stream);
-
-  //   };
+  
 
     const sendStreams = useCallback(() => {
       for (const track of myStream.getTracks()) {
@@ -330,7 +320,7 @@ useEffect(()=>{
                   style={{
                   display:"flex",
                   justifyContent:
-                  msg.senderId==`${seeker?._id}`?"flex-end":"flex-start",
+                  msg.senderId===`${seeker?._id}`?"flex-end":"flex-start",
                   marginBottom:"10px",
                 }}
               >

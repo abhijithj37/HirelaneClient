@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Typography,
@@ -28,12 +28,12 @@ const JobDetails = () => {
       .then(({data}) => {
         dispatch(setJobDetails(data.job));
       });
-  }, [postId]);
+  }, [postId,dispatch]);
 
   const [open,setOpen]=React.useState(false);
   const handleOpen =()=>setOpen(true);
   const handleClose=()=> setOpen(false);
-        
+         
 
   const style = {
     position:"absolute",

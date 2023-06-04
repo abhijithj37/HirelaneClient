@@ -1,4 +1,4 @@
-import { Avatar, Badge, Box, Button, Divider, TextField, Typography } from "@mui/material";
+import { Avatar, Badge, Box, Typography } from "@mui/material";
 import axios from "../../axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,19 +24,19 @@ function EmployerConversation({ conversation, onlineUsers,searchQuery }) {
          console.log(err);
         })
     }
-  },[conversation])
+  },[conversation,employer?._id])
 
 
 
   useEffect(()=>{
   if(conversation){
     axios.get(`/chat/emp-unreadMessages/${conversation._id}`,{withCredentials:true}).then(({data})=>{
-     setUnreadMessages(data.filter((mesg)=>mesg.from!=employer?._id))
+     setUnreadMessages(data.filter((mesg)=>mesg.from!==employer?._id))
     }).catch((err)=>{
     console.log(err);
     })
-  }
-  },[conversation])
+  } 
+  },[conversation,employer?._id])
 
    
 
@@ -56,7 +56,7 @@ function EmployerConversation({ conversation, onlineUsers,searchQuery }) {
           },
           
         }}
-        bgcolor={user?._id==chatUser?._id&&'#eceff1'}
+        bgcolor={user?._id===chatUser?._id&&'#eceff1'}
         onClick={() => {
           dispatch(
             setChatUser({

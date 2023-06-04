@@ -115,7 +115,7 @@ function Applicants() {
     if (interviewMode === "") {
       return setError("Please Select an Interview Mode");
     }
-
+ 
     setError("");
     const data = {
       candidateId: selectedCandidate?.candidateId,

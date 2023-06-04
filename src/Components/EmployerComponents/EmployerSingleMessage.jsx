@@ -45,7 +45,7 @@ function EmployerSingleMessage({message,scrollRef}) {
           maxWidth:"70%",
           wordBreak:"break-word",
         }}
-      >
+      > 
         {message?.message}
       </div>
       <div

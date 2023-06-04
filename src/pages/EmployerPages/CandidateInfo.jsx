@@ -8,10 +8,10 @@ import {
   Button,
   Avatar,
   Toolbar,
-  Grid,
+  
   
 } from "@mui/material";
-import { useDispatch,useSelector} from "react-redux";
+import { useDispatch} from "react-redux";
 import { setChatUser } from "../../app/features/employerSlice";
 
 function CandidateInfo() {
@@ -30,7 +30,7 @@ function CandidateInfo() {
       .catch((err) => {
         console.log(err.message);
       });
-  }, []);
+  }, [id]);
 
   
   return (

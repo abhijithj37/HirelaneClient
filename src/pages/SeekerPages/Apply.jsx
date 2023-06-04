@@ -99,8 +99,7 @@ function Apply() {
   };
   const handleContactInfo=(e)=>{
     e.preventDefault();
-//***************************************************************************************************Validate************************************************************
-    setShowContactForm(false);
+     setShowContactForm(false);
     setShowCvInfo(true);
     setProgress(40);
   };

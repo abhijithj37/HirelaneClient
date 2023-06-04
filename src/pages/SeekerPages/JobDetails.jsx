@@ -20,22 +20,7 @@ function JobDetails() {
 
             <Grid container sx={{ backgroundColor:"white" }} spacing={1}>
               <Grid item xs={12} lg={12}>
-                {/* <Grid
-              sx={{
-                p: 2,
-                display: "flex",
-
-                height: 150,
-                border: 1,
-                borderColor: "lightgray",
-                "&:hover": {
-                  borderColor: "lightblue",
-                },
-                borderRadius: 1,
-              }}
-            >
-               
-            </Grid>*/}
+            
 
                 <>
                   <Grid

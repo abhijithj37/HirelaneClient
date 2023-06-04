@@ -99,7 +99,7 @@ function CreateNewPost() {
           navigate("/employer");
           window.alert('Job Posted  Successfully')
       })
-      .catch((error) => {
+      .catch((error) => { 
         console.log(error.message);
       });
   };

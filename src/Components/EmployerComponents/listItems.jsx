@@ -30,7 +30,7 @@ import { useConnectEmployer } from "../../Utils/api";
           console.log(error.message);
         });
     }
-  };
+  }; 
 
   useConnectEmployer()
 
