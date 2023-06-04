@@ -107,7 +107,7 @@ function App() {
           path="/profile"
           element={seeker ? <BuildResume /> : <Navigate to={"/login"} />}
         ></Route>
-        <Route path="/myjobs" element={<MyJobs />}></Route>
+        <Route path="/myjobs" element={seeker?<MyJobs />: <Navigate to={"/login"} />}></Route>
         <Route path="/meet/:id" element={seeker?<Meet />:<Navigate to={'/join'}/>}></Route>
 
         <Route
@@ -121,11 +121,11 @@ function App() {
           }
         ></Route>
         <Route path="/jobDetails/:id" element={<JobDetails />}></Route>
-        <Route path="/messages" element={<Messages />}></Route>
-        <Route path="/notifications" element={<UserNotifications />}></Route>
+        <Route path="/messages" element={seeker?<Messages />: <Navigate to={"/login"} />}></Route>
+        <Route path="/notifications" element={seeker?<UserNotifications />:<Navigate to={"/login"} />}></Route>
 
         <Route path="/apply/:id" element={<Apply />}></Route>
-        <Route path="/join" element={<Join />}></Route>
+        <Route path="/join" element={seeker?<Join />: <Navigate to={"/login"} />}></Route>
 
         <Route
           path="/employerSignup"

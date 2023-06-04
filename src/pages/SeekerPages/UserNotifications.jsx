@@ -10,6 +10,7 @@ function UserNotifications() {
   const dispatch=useDispatch()
   const { notifications } = useSelector((state) => state.seeker);
 
+  
 
   const handleDeleteNotification=(id)=>{
     axios.delete(`seeker/my-notification/${id}`,{withCredentials:true}).then(()=>{
