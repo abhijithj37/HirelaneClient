@@ -16,7 +16,7 @@ import { useConnectEmployer } from "../../Utils/api";
  function MainListItems() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-    const handleLogout = () => {
+     const handleLogout = () => {
     const confirmed = window.confirm("Are You Sure want to log out");
 
     if (confirmed) {
@@ -34,7 +34,9 @@ import { useConnectEmployer } from "../../Utils/api";
 
   useConnectEmployer()
 
-  
+ 
+
+
   return (
     <>
       <ListItemButton

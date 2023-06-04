@@ -42,6 +42,7 @@ import EmpMeet from "./pages/EmployerPages/Emp-Meet";
 import { SocketProvider, useSocket } from "./Context/SocketProvider";
 import Meet from "./pages/SeekerPages/Meet";
 import UserNotifications from "./pages/SeekerPages/UserNotifications";
+import EmployerNotifications from "./pages/EmployerPages/EmployerNotifications";
 
 
 function App() {
@@ -159,6 +160,7 @@ function App() {
           <Route path="candidates" element={<Applicants />}></Route>
           <Route path="candidateInfo/:id" element={<CandidateInfo />}></Route>
           <Route path="interviews" element={<Interviews />}></Route>
+          <Route path="emp-notifications" element={<EmployerNotifications/>}/>
           <Route
             path="interviewDetails/:id"
             element={<InterviewDetails />}

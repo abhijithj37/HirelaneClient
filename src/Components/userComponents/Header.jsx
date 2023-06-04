@@ -12,14 +12,14 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { Link } from "@mui/material";
+import { Badge, Link } from "@mui/material";
 import Logo from "../../images/logo.png";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import Divider from "@mui/material/Divider";
  import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import axios from "../../axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setSeeker } from "../../app/features/seekerSlice";
+import { setSeeker, setUnreadNotifications } from "../../app/features/seekerSlice";
 import {useNavigate } from "react-router-dom";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -32,6 +32,7 @@ function Header() {
   const [anchorElNav,setAnchorElNav]=React.useState(null);
   const [anchorElUser, setAnchorElUser]=React.useState(null);
   const dispatch = useDispatch();
+  const {unreadNotifications,notifications}=useSelector((state)=>state.seeker)
   const handleOpenNavMenu = (event) =>{
   setAnchorElNav(event.currentTarget);
   };
@@ -65,7 +66,13 @@ function Header() {
   
   }
 useConnectUser()
+
+React.useEffect(()=>{
+dispatch(setUnreadNotifications(notifications?.filter((n)=>n.read===false)))
+},[dispatch,notifications])
  
+
+
 
   return (
 
@@ -189,7 +196,9 @@ useConnectUser()
                 <ChatIcon/>
               </IconButton>
               <IconButton onClick={()=>navigate('/notifications')}>
+                <Badge color="primary" badgeContent={unreadNotifications?.length}> 
                 <NotificationsActiveIcon/>
+                </Badge>
               </IconButton>
               <Menu
                 sx={{ mt: "45px" }}

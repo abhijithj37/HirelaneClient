@@ -1,7 +1,6 @@
 import {
   Avatar,
   Box,
-  Button,
   Container,
   Divider,
   Grid,
@@ -15,14 +14,14 @@ import BusinessIcon from "@mui/icons-material/Business";
 import CandidateDetails from "./CandidateDetails";
 import { setJobApplications } from "../../app/features/employerSlice";
 import { useDispatch, useSelector } from "react-redux";
-
+ 
 function ApplicationDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { jobApplications } = useSelector((state) => state.employer);
+  const { jobApplications }=useSelector((state) => state.employer);
   const [index,setIndex]=useState(0)
  
-    
+                    
   useEffect(() => {
     let status='Applied'
     axios
@@ -100,11 +99,11 @@ function ApplicationDetails() {
                 {jobApplications?.length} Applicants
               </Box>
               {jobApplications &&
-                jobApplications.map((element, idx) => {
+                jobApplications?.map((element, idx) => {
                   return (
                     <Box
                     onClick={()=>{setIndex(idx)}}
-                    key={idx}
+                    key={element._id}
                       marginTop={2}
                       sx={{ borderColor: "lightgray",
                        cursor: "pointer",
@@ -116,7 +115,7 @@ function ApplicationDetails() {
                       padding={1}
                       justifyContent={"space-between"}
                       display={"flex"}
-                      bgcolor={element._id==jobApplications[index]._id&&'#eceff1'}
+                      bgcolor={element._id===jobApplications[index]?._id&&'#eceff1'}
                       
 
                     >
@@ -144,7 +143,9 @@ function ApplicationDetails() {
 
           <Grid item lg={0.3}></Grid>
    
-          <CandidateDetails  jobApplication={jobApplications[index]} />
+          <CandidateDetails setIndex={setIndex}  jobApplication={jobApplications[index]} />
+
+          
         </Grid>
         
       </Container>:

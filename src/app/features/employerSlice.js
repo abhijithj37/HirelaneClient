@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+ 
 const initialState = {
   employer: null,
   postedJobs: null,
@@ -9,7 +9,10 @@ const initialState = {
   jobApplications:[],
   chatUser:null,
   newMessage:"",
-  myStream:null
+  myStream:null,
+  notifications:[],
+  unreadNotifications:[],
+  updated:false
   
 };
 
@@ -43,6 +46,15 @@ const employerSlice=createSlice({
     },
     setEmpStream:(state,action)=>{
      state.myStream=action.payload
+    },
+    setEmployerNotifications:(state,action)=>{
+      state.notifications=action.payload
+    },
+    setEmployerUnreadNotifications:(state,action)=>{
+      state.unreadNotifications=action.payload
+    },
+    setUpdated:(state,action)=>{
+      state.updated=action.payload
     }
   },
 });
@@ -55,5 +67,8 @@ export const {
   setJobApplications,
   setChatUser,
   setNewMessage,
-  setEmpStream
+  setEmpStream,
+  setEmployerNotifications,
+  setEmployerUnreadNotifications,
+  setUpdated
 } =employerSlice.actions;

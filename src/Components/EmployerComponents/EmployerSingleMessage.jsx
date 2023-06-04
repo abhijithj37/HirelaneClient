@@ -12,12 +12,10 @@ function EmployerSingleMessage({message,scrollRef}) {
 
     if(message&&message.from!==employer._id&&!message.read){
      const data={
-
      messageId:message._id
-
     }
      axios.put(`/chat/emp-update-msg`,data,{withCredentials:true}).then(({data})=>{
-     console.log(data);
+     
      }).catch((err)=>{
      console.log(err.message);
      })

@@ -1,14 +1,20 @@
 import { Avatar, Box, Button, Grid, IconButton, Menu, MenuItem, Typography } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, {  useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
  import { useNavigate } from "react-router-dom";
 import { setChatUser, setJobApplications } from "../../app/features/employerSlice";
 import { MoreVert } from "@mui/icons-material";
 import axios from "../../axios";
+import { handleSendNotification } from "../../Utils/api";
+import { useSocket } from "../../Context/SocketProvider";
 
 
  
-function CandidateDetails({ jobApplication}) {
+function CandidateDetails({setIndex, jobApplication}){
+   
+
+  const {employer}=useSelector((state)=>state.employer)
+  const socket=useSocket()
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const [anchorEl,setAnchorEl] = useState(null);
@@ -33,13 +39,16 @@ function CandidateDetails({ jobApplication}) {
     status,
     applicationId:jobApplication?._id,
     jobId:jobApplication?.jobId
-     }
+    }
   
     
     axios.put('/applications/update-status',data,{withCredentials:true}).then(({data})=>{
-      console.log(data,'app dataa');
+    const content=`Your Job application for ${jobApplication?.jobTitle} was ${status}`
+    setIndex(0)
     dispatch(setJobApplications(data))
+     
     window.alert(`Candidate${status}`)
+    handleSendNotification(employer?.companyName,jobApplication?.candidateId,content,socket)
     }).catch((err)=>{
     console.log(err.message);
     })
@@ -128,7 +137,7 @@ function CandidateDetails({ jobApplication}) {
                     </MenuItem>
                      
                     <MenuItem  onClick={()=>{handleUpdateStatus('Reviewing')}} >
-                     Save Application 
+                     Save Application
                     </MenuItem>
                   </Menu>
          </Box>
@@ -216,7 +225,7 @@ function CandidateDetails({ jobApplication}) {
         </Box>
       </Box>
     </Grid>
-
+    
   );
 }
 

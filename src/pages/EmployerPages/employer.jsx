@@ -76,7 +76,7 @@ function DashboardContent() {
 
  
 
-  const { employer } = useSelector((state) => state.employer);
+  const { employer,unreadNotifications } = useSelector((state) => state.employer);
   const navigate=useNavigate()
 
    
@@ -127,16 +127,14 @@ function DashboardContent() {
                 </>        
               )}         
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+            <IconButton onClick={()=>navigate('emp-notifications')} color="inherit">
+              <Badge badgeContent={unreadNotifications?.length} color="secondary">
                 <NotificationsIcon />
               </Badge>        
             </IconButton>           
             <IconButton onClick={()=>navigate('employerChat')} color="inherit">
-              <Badge badgeContent={2} color="secondary">
-                <MessageIcon />
-              </Badge>       
-            </IconButton>         
+                 <MessageIcon />
+             </IconButton>         
           </Toolbar>         
         </AppBar>          
 

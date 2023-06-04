@@ -10,6 +10,7 @@ const initialState = {
   chatUser: null,
   myStream: null,
   notifications:[],
+  unreadNotifications:[]
 };
 const seekerSlice = createSlice({
   name: "seeker",
@@ -34,6 +35,9 @@ const seekerSlice = createSlice({
     setNotifications: (state, action) => {
       state.notifications = action.payload;
     },
+    setUnreadNotifications:(state,action)=>{
+        state.unreadNotifications=action.payload
+    }
   },
 });
 export default seekerSlice.reducer;
@@ -44,4 +48,5 @@ export const {
   setChatEmployer,
   setMystream,
   setNotifications,
+  setUnreadNotifications
 } = seekerSlice.actions;
