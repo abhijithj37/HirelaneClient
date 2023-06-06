@@ -152,6 +152,7 @@ function Apply() {
       background:"linear-gradient(to right, white 50%, #fafafa 50%)",
       }}
     >
+      {/* ******************************************************************ModalOpen************************************************************ */}
        <Modal 
         open={err}
         onClose={()=>setErr(false)}
