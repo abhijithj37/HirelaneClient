@@ -134,7 +134,7 @@ function App() {
           }
         />
         <Route
-          path="/employerLogin"
+          path="/employerLogin" 
           element={employer ? <Navigate to={"/employer"} /> : <EmployerLogin />}
         ></Route>
         <Route

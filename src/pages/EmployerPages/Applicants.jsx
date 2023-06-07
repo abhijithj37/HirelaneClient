@@ -59,7 +59,7 @@ function Applicants() {
     setAnchorEl(null);
   };
 
-  const handleOptionClick = (e, data) => {
+  const handleOptionClick = (e,data) => {
     setSelectedCandidate(data);
     setAnchorEl(e.currentTarget);
   };
