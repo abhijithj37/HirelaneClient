@@ -247,7 +247,7 @@ dispatch(setUnreadNotifications(notifications?.filter((n)=>n.read===false)))
                 underline="none"
                 sx={{ my: 2, color: "blue", display: "block" }}
               >
-                Sign In
+                Log In
               </Button>
             </Box>
           )}

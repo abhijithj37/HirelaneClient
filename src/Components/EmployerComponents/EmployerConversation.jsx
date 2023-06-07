@@ -67,6 +67,7 @@ function EmployerConversation({ conversation, onlineUsers,searchQuery }) {
           );
         }}
       >
+        {/* ############################################################################## */}
         {onlineUsers?.includes(user?._id) ? (
           <StyledBadge
             overlap="circular"
