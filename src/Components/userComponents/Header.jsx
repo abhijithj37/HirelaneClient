@@ -265,7 +265,7 @@ dispatch(setUnreadNotifications(notifications?.filter((n)=>n.read===false)))
               variant="body2"
               underline="none"
               onClick={() =>{
-                window.open('http://localhost:3000/employerLogin', '_blank');
+                window.open('/employerLogin', '_blank');
 
               }}
               sx={{ my:2,color:"black",display:"block" }}
