@@ -36,13 +36,13 @@ function Header() {
   const handleOpenNavMenu = (event) =>{
   setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
+  const handleOpenUserMenu =(event)=>{
   setAnchorElUser(event.currentTarget);
   };
-  const handleCloseNavMenu = () => {
+  const handleCloseNavMenu=()=>{
     setAnchorElNav(null);
   };
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu=()=>{
     setAnchorElUser(null);
   };
   const handleLogout = () => {
@@ -259,20 +259,20 @@ dispatch(setUnreadNotifications(notifications?.filter((n)=>n.read===false)))
           />
           
           <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
-            <Link
+            <Button
               target="_blank"
-              component={Button}
+              
               variant="body2"
               underline="none"
               onClick={() =>{
-                window.open('/employerLogin', '_blank');
+                navigate('/employerLogin')
 
               }}
-              sx={{ my:2,color:"black",display:"block" }}
+              sx={{my:2,color:"black",display:"block"}}
             >
               Employers/Post Job
 
-            </Link>
+            </Button>
           </Box>
         </Toolbar>
       </Container>
