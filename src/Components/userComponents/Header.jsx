@@ -212,13 +212,13 @@ dispatch(setUnreadNotifications(notifications?.filter((n)=>n.read===false)))
                 transformOrigin={{
                   vertical: "top",
                   horizontal: "right",
-                }}
+                }}  
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
                 <MenuItem onClick={handleProfile}>
                   <ManageAccountsIcon></ManageAccountsIcon>
-                  <Typography textAlign="center">{"Profile "}</Typography>
+                  <Typography textAlign="center">{"Profile"}</Typography>
                 </MenuItem>      
                 <MenuItem onClick={()=>navigate('/myjobs')}>
                   <FavoriteIcon/>
